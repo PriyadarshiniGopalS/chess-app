@@ -1,0 +1,34 @@
+# Node modules
+node_modules/
+
+# Compiled output
+dist/
+*.log
+
+# Dependency directory
+tmp/
+
+# IDE files
+.idea/
+.vscode/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Angular specific
+.angular-cli.json
+.angular-cli/
+*.ngsummary.json
+*.ngfactory.ts
+
+# Test generated files
+*.spec.ts
+*.spec.js
+
+# System and project files
+*.suo
+*.user
+*.sln
+*.proj
+*.swp
