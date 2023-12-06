@@ -1,0 +1,25 @@
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    margin: 0 15%;
+  }
+
+  .social-icons {
+    display: flex;
+  }
+
+  .social-icons a {
+    color: #fff;
+    margin-right: 10px;
+    text-decoration: none;
+    font-size: 1.5rem;
+  }

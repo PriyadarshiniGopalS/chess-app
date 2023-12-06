@@ -1,0 +1,16 @@
+.page-container {
+    background-image: url('/assets/background.jpg'); /* Replace with your background image path */
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    color: #fff;
+    height: 100vh; /* Set to viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
