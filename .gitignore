@@ -11,6 +11,7 @@ tmp/
 # IDE files
 .idea/
 .vscode/
+.angular/
 
 # OS-specific files
 .DS_Store
