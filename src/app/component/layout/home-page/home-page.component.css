@@ -1,5 +1,5 @@
 .page-container {
-    background-image: url('/assets/background.jpg'); /* Replace with your background image path */
+    background-image: url('../../../../assets/background.jpg'); /* Replace with your background image path */
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
