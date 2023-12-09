@@ -1,4 +1,5 @@
-<header class="header-container">
+<header class="header-container"
+[class.header-container-small-screen]="isSmallScreen">
   <div class="contact-info">
     <span class="phone">
       <i class="fas fa-phone"></i>
@@ -10,7 +11,8 @@
     </span>
   </div>
 
-  <div class="social-icons">
+  <div class="social-icons"
+  [class.social-icons-small-screen]="isSmallScreen">
     <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
     <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
     <a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
