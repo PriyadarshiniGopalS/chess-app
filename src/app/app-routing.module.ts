@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './component/layout/layout.component';
 
 const routes: Routes = [
-  { path: 'chess-app', component: LayoutComponent }
+  { path: '', component: LayoutComponent }
   // ... other routes
 ];
 
