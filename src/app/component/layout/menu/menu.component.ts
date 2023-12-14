@@ -1,3 +1,4 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
 
-  constructor() { }
+  isSmallScreen = false;
+  constructor(private breakpointObserver: BreakpointObserver) { }
 
   ngOnInit(): void {
+    this.observeScreenSize();
   }
 
+  observeScreenSize() {
+    this.breakpointObserver.observe([Breakpoints.Small, Breakpoints.Handset]).subscribe((result: { matches: boolean; }) => {
+      this.isSmallScreen = result.matches;
+    });
+  }
 }

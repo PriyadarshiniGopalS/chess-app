@@ -11,7 +11,6 @@ export class HeaderComponent implements OnInit {
   mobileNumber = '123-456-7890';
   emailAddress = 'example@example.com';
   
-  
   isSmallScreen = false;
 
   constructor(private breakpointObserver: BreakpointObserver) {}

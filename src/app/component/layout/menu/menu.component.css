@@ -1,6 +1,14 @@
 .navbar {
   background-color: black;
   color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.navbar-nav {
+ flex-wrap: wrap;
 }
 
 .navbar-nav .nav-link {
@@ -13,13 +21,35 @@
 
 .brand-text {
   color: white;
+  font-size: 1.8rem;
 }
-
-.navbar-toggler-icon {
-  background-color: transparent; /* Set the background to transparent */
-  border-color: white; /* Set the border color to white */
+.navbar-toggler {
+  background-color: white;
 }
 
 .navbar-toggler:focus {
   outline: none; /* Remove the focus outline when the toggler is clicked */
+}
+
+.logo {
+  width: 8rem;
+  height: 8rem;
+}
+
+.logo-small-screen {
+  width: 5rem;
+  height: 5rem;
+}
+
+.brand-text-small-screen {
+  color: white;
+  font-size: 1rem;
+}
+
+.navbar-toggler-small-screen {
+  font-size: 0.5rem; /* Adjust the font size */
+}
+
+.navbar-small-screen {
+  align-items: flex-end;
 }
