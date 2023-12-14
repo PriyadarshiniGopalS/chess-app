@@ -1,41 +1,25 @@
 .navbar {
-    background-color: #000000;
-    color: #fff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-  }
+  background-color: black;
+  color: white;
+}
 
-  .navbar-brand {
-    display: flex;
-    align-items: center;
-  }
+.navbar-nav .nav-link {
+  color: white; /* Change the color of the navigation links */
+}
 
-  .logo {
-    width: 100px; /* Adjust the width as needed */
-    height: auto;
-    margin: 0px 10px;
-  }
+.navbar-nav .nav-link:hover {
+  color: #007bff; /* Change the color on hover if needed */
+}
 
-  .nav-list {
-    list-style: none;
-    display: flex;
-    margin: 0;
-    padding: 0;
-  }
+.brand-text {
+  color: white;
+}
 
-  .nav-item {
-    margin-right: 20px;
-  }
+.navbar-toggler-icon {
+  background-color: transparent; /* Set the background to transparent */
+  border-color: white; /* Set the border color to white */
+}
 
-  .nav-item a {
-    text-decoration: none;
-    color: #fff;
-    font-weight: bold;
-  }
-  
-  .brand-text {
-    font-size: 1.5rem; /* Adjust the font size as needed */
-    align-items: center;
-  }
+.navbar-toggler:focus {
+  outline: none; /* Remove the focus outline when the toggler is clicked */
+}
