@@ -36,20 +36,39 @@
   height: 8rem;
 }
 
-.logo-small-screen {
-  width: 5rem;
-  height: 5rem;
+/* Extra small devices (phones) */
+@media (max-width: 575.98px) {
+  /* Styles for extra small devices */
+  .logo {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .brand-text {
+    color: white;
+    font-size: 1rem;
+  }
+
+  .navbar-toggler {
+    font-size: 0.5rem; /* Adjust the font size */
+  }
 }
 
-.brand-text-small-screen {
-  color: white;
-  font-size: 1rem;
+/* Small devices (phones) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  /* Styles for small devices */
+  .logo {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .brand-text {
+    color: white;
+    font-size: 1rem;
+  }
+  
+  .navbar-toggler {
+    font-size: 0.5rem; /* Adjust the font size */
+  }
 }
 
-.navbar-toggler-small-screen {
-  font-size: 0.5rem; /* Adjust the font size */
-}
-
-.navbar-small-screen {
-  align-items: flex-end;
-}
