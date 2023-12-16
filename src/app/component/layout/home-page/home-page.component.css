@@ -1,15 +1,69 @@
-.page-container {
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    color: #fff;
-    height: 100vh; /* Set to viewport height */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
+#video-container {
+  height: 100vh; /* Adjust the height as needed */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem;
+}
 
-  h1 {
-    font-size: 2.5rem;
+video {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+#text-overlay {
+  position: absolute;
+  /* top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); */
+  color: black;
+  font-size: 1.8rem;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  box-sizing: border-box;
+  overflow: hidden;
+  /*width: 100vh;  Set your desired maximum width */
+  width: 60vh;
+  max-height: 50vh; /*Set your desired maximum height */
+  word-wrap: break-word;
+  background-color: rgba(255, 255, 255, 0.5); /* Transparent white background */
+  padding: 1rem; /* Adjust padding as needed */
+  border-radius: 0.5rem; /* Optional: Add rounded corners */
+  font-weight: bolder;
+  font-style: italic;
+  animation: resizeTextOverlay 3s steps(30, end);
+}
+
+#typed-text {
+  white-space: normal; /* Allow text to wrap */
+  overflow: hidden;
+  margin: 0 auto;
+  letter-spacing: 2px;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
   }
+  to {
+    width: 100%;
+  }
+}
+
+/* Extra small devices (phones) */
+@media (max-width: 575.98px) {
+  /* Styles for extra small devices */
+  
+  #text-overlay {
+    font-size: 1rem;
+    width: auto;
+  }
+}
+
+/* Small devices (phones) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  /* Styles for small devices */
+
+}
+
