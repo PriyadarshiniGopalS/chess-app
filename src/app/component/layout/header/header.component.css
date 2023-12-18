@@ -14,13 +14,17 @@
   text-align: center; /* Center text within each item */
 }
 
+.contact-info a {
+ color: #ffa600;
+}
+
 .social-icons {
   display: flex;
 }
 
 .social-icons a {
   margin-right: 10px;
-  color: #f0f0f0; /* Adjust icon color */
+  color: #ffa600; /* Adjust icon color */
   text-decoration: none; /* Remove underline from the links */
   font-size: 1.5rem; /* Adjust icon size */
 }

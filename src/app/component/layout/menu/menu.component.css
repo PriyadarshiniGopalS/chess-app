@@ -31,6 +31,14 @@
   outline: none; /* Remove the focus outline when the toggler is clicked */
 }
 
+.navbar-nav {
+  background-color: #ffa600;
+}
+.navbar-nav li {
+  margin: 1rem;
+  font-size: 1.2rem;
+}
+
 .logo {
   width: 8rem;
   height: 8rem;
@@ -72,3 +80,10 @@
   }
 }
 
+@media only screen and (min-width: 992px) and (max-width: 1300px) {
+  
+  .navbar-nav li {
+    margin: 0;
+    font-size: 0.8rem;
+  }
+}

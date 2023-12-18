@@ -1,0 +1,14 @@
+/* Styling for the footer */
+.footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Styling for the footer icon */
+.footer-icon {
+    margin-bottom: 1rem; /* Add margin to the right of the icon */
+}
