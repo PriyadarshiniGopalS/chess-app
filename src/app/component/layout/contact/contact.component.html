@@ -1,0 +1,17 @@
+<!-- src/app/contact/contact.component.html -->
+
+<div class="contact-page">
+    <div class="contact-content">
+        <img src='assets/logo.jpg' alt="Logo" class="logo">
+        <h2>Contact Us</h2>
+        <p>Have questions or want to get in touch with us? We'd love to hear from you! Feel free to reach out using the information below:</p>
+
+        <div class="contact-details">
+        <p><strong>Email:</strong><a [href]="'mailto:' + emailAddress">{{ emailAddress }}</a></p>
+        <p><strong>Phone:</strong> <a [href]="'tel:' + mobileNumber">{{ mobileNumber }}</a></p>
+        <p><strong>Address:</strong> Tiruppur - 641602</p>
+        </div>
+
+    </div>
+  </div>
+  

@@ -9,6 +9,9 @@ import { FooterComponent } from './footer/footer.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { AboutComponent } from './about/about.component';
+import { ContactComponent } from './contact/contact.component';
+import { EventsComponent } from './events/events.component';
+import { AchievementsComponent } from './achievements/achievements.component';
 
 const routes: Routes = [
   {
@@ -26,6 +29,21 @@ const routes: Routes = [
     component: AboutComponent,
     children: []
   },
+  {
+    path: 'contact',
+    component: ContactComponent,
+    children: []
+  },
+  {
+    path: 'events',
+    component: EventsComponent,
+    children: []
+  },
+  {
+    path: 'achievements',
+    component: AchievementsComponent,
+    children: []
+  },
 ];
 
 @NgModule({
@@ -36,7 +54,10 @@ const routes: Routes = [
     MenuComponent,
     EnrollComponent,
     FooterComponent,
-    AboutComponent
+    AboutComponent,
+    ContactComponent,
+    EventsComponent,
+    AchievementsComponent
   ],
   imports: [
     CommonModule,

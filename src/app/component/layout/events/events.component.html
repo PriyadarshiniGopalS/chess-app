@@ -1,0 +1,19 @@
+<!-- src/app/events/events.component.html -->
+
+<div class="events-page">
+    <div class="events-content">
+      <h2>Upcoming Events</h2>
+      
+      <div class="event-item" *ngFor="let event of eventsList">
+        <h3>{{ event.title }}</h3>
+        <p><strong>Date:</strong> {{ event.date | date: 'longDate' }}</p>
+        <p><strong>Location:</strong> {{ event.location }}</p>
+        <p>{{ event.description }}</p>
+      </div>
+  
+      <div *ngIf="eventsList.length === 0">
+        <p>No upcoming events at the moment. Stay tuned for updates!</p>
+      </div>
+    </div>
+  </div>
+  

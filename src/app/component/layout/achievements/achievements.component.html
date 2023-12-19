@@ -1,0 +1,18 @@
+<!-- src/app/achievements/achievements.component.html -->
+
+<div class="achievements-page">
+    <div class="achievements-content">
+        <h2>Our Achievements</h2>
+
+        <div class="achievement-item" *ngFor="let achievement of achievementsList">
+        <h3>{{ achievement.title }}</h3>
+        <p><strong>Date:</strong> {{ achievement.date | date: 'longDate' }}</p>
+        <p>{{ achievement.description }}</p>
+        </div>
+
+        <div *ngIf="achievementsList.length === 0">
+        <p>No achievements to display at the moment. We are constantly striving for excellence!</p>
+        </div>
+    </div>
+</div>
+  
