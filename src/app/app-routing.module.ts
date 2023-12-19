@@ -7,7 +7,7 @@ const routes: Routes = [
   {
     path: '', component: LayoutComponent,
     loadChildren: () => import('./component/layout/layout.module').then(m => m.LayoutModule),
-    pathMatch: 'prefix'
+    pathMatch: 'full'
   },
   { path: '**', redirectTo: 'home' }
 ];
