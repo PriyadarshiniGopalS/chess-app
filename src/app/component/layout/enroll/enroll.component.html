@@ -1,34 +1,11 @@
 <div class="main-tile">
-    <!-- First Tile -->
-    <div class="tile">
-        <div class="icon"><img src="assets/how-to-play-chess.jpg"></div>
+    <div *ngFor="let tile of tiles" class="tile">
+        <div class="icon"><img [src]="tile.icon"></div>
         <div class="text">
-            <h2>Enroll in Chess Class</h2>
-            <p>Ready to master the game? Enroll in our chess class and enhance your skills with expert guidance.</p>
-            <p>Join our interactive classes and become a chess champion!</p>
+          <h2>{{ tile.title }}</h2>
+          <p>{{ tile.description1 }}</p>
+          <p>{{ tile.description2 }}</p>
         </div>
-        <a href="#" class="button">Enroll Now</a>
-    </div>
-
-    <!-- Second Tile -->
-    <div class="tile">
-        <div class="icon"><img src="assets/chess-kit.jpg"></div>
-        <div class="text">
-            <h2>Basic Chess Kit</h2>
-            <p>Get started with the essentials! Our basic chess kit includes everything you need to kickstart your chess journey.</p>
-            <p>Equip yourself with the tools to become a chess enthusiast.</p>
-        </div>
-        <a href="#" class="button">Get Kit</a>
-    </div>
-
-    <!-- Third Tile -->
-    <div class="tile">
-        <div class="icon"><img src="assets/tournament.jpg"></div>
-        <div class="text">
-            <h2>Chess Tournament Registration</h2>
-            <p>Compete against the best in our upcoming chess tournament. Register now to showcase your skills and win exciting prizes!</p>
-            <p>Challenge yourself and participate in the ultimate chess showdown.</p>
-        </div>
-        <a href="#" class="button">Register</a>
+        <a [href]="tile.buttonLink" class="button">{{ tile.buttonText }}</a>
     </div>
 </div>

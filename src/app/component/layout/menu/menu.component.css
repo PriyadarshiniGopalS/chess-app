@@ -23,8 +23,9 @@
   color: white;
   font-size: 1.8rem;
 }
+
 .navbar-toggler {
-  background-color: white;
+  background-color: #ffa600;
 }
 
 .navbar-toggler:focus {
@@ -33,10 +34,18 @@
 
 .navbar-nav {
   background-color: #ffa600;
+  text-align: center;
 }
-.navbar-nav li {
-  margin: 1rem;
+
+.nav-item {
+  padding: 0.8rem;
   font-size: 1.2rem;
+  border: 1px solid black;
+}
+
+.selected .nav-link , .selected .fas {
+  color: black; /* Change text color */
+  font-weight: bold;
 }
 
 .logo {
@@ -60,6 +69,11 @@
   .navbar-toggler {
     font-size: 0.5rem; /* Adjust the font size */
   }
+
+  .nav-item {
+    padding: 0.4rem;
+    font-size: 0.8rem;
+  }
 }
 
 /* Small devices (phones) */
@@ -78,12 +92,9 @@
   .navbar-toggler {
     font-size: 0.5rem; /* Adjust the font size */
   }
-}
 
-@media only screen and (min-width: 992px) and (max-width: 1300px) {
-  
-  .navbar-nav li {
-    margin: 0;
+  .nav-item {
+    padding: 0.4rem;
     font-size: 0.8rem;
   }
 }

@@ -1,9 +1,11 @@
 <div id="video-container">
-    <video [muted]="isMuted" autoplay [loop]="true" playsinline>
+    <video [muted]="isMuted" autoplay [loop]="true" playsinline [controls]="false">
       <source src="assets/chess-video.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
     <div id="text-overlay">
         <div #typedText id="typed-text"></div>
     </div>
-  </div>
+</div>
+
+<ca-enroll></ca-enroll>
