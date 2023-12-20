@@ -11,4 +11,5 @@
 /* Styling for the footer icon */
 .footer-icon {
     margin-bottom: 1rem; /* Add margin to the right of the icon */
+    height: 10rem;
 }
