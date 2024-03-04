@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Tile } from '../model/tile.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { AdmissionFormComponent } from '../admission-form/admission-form.component';
 
 @Component({
   selector: 'ca-enroll',
@@ -52,12 +54,16 @@ export class EnrollComponent implements OnInit {
   }
 
   public open(): void {
-    const dialogRef = this.dialog.open(ChessAdmissionDialogComponent, {
-      width: '500px',
-    });
-  
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+    const dialogRef = this.dialog.open(AdmissionFormComponent);
+    
+  // Add a class to the overlay when the dialog is opened
+  dialogRef.afterOpened().subscribe(() => {
+    document.body.classList.add('show-overlay');
+  });
+
+  // Remove the class when the dialog is closed
+  dialogRef.afterClosed().subscribe(() => {
+    document.body.classList.remove('show-overlay');
+  });
   }
 }

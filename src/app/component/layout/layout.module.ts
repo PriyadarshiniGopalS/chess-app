@@ -13,6 +13,8 @@ import { ContactComponent } from './contact/contact.component';
 import { EventsComponent } from './events/events.component';
 import { AchievementsComponent } from './achievements/achievements.component';
 import { AdmissionFormComponent } from './admission-form/admission-form.component';
+import { FormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const routes: Routes = [
   {
@@ -62,6 +64,8 @@ const routes: Routes = [
     AdmissionFormComponent
   ],
   imports: [
+    MatDialogModule,
+    FormsModule,
     CommonModule,
     RouterModule.forChild(routes)
   ],
