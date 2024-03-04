@@ -38,7 +38,8 @@ export class EnrollComponent implements OnInit {
 
   isSmallScreen = false;
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(private breakpointObserver: BreakpointObserver,
+    public dialog: MatDialog) {}
 
   ngOnInit() {
     this.observeScreenSize();
@@ -47,6 +48,16 @@ export class EnrollComponent implements OnInit {
   observeScreenSize() {
     this.breakpointObserver.observe([Breakpoints.Small, Breakpoints.Handset]).subscribe((result: { matches: boolean; }) => {
       this.isSmallScreen = result.matches;
+    });
+  }
+
+  public open(): void {
+    const dialogRef = this.dialog.open(ChessAdmissionDialogComponent, {
+      width: '500px',
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
     });
   }
 }

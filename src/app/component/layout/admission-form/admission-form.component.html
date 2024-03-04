@@ -1,0 +1,23 @@
+<div>
+    <h2>Chess Class Admission Form</h2>
+    <form (ngSubmit)="submitForm()" #admissionForm="ngForm">
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" class="form-control" id="fullName" name="fullName" [(ngModel)]="formData.fullName" required>
+      </div>
+      <div class="form-group">
+        <label for="age">Age</label>
+        <input type="number" class="form-control" id="age" name="age" [(ngModel)]="formData.age" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email" [(ngModel)]="formData.email" required>
+      </div>
+      <div class="form-group">
+        <label for="phoneNumber">Phone Number</label>
+        <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" [(ngModel)]="formData.phoneNumber" required>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="admissionForm.invalid">Submit</button>
+    </form>
+  </div>
+  

@@ -12,6 +12,7 @@ import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { EventsComponent } from './events/events.component';
 import { AchievementsComponent } from './achievements/achievements.component';
+import { AdmissionFormComponent } from './admission-form/admission-form.component';
 
 const routes: Routes = [
   {
@@ -57,7 +58,8 @@ const routes: Routes = [
     AboutComponent,
     ContactComponent,
     EventsComponent,
-    AchievementsComponent
+    AchievementsComponent,
+    AdmissionFormComponent
   ],
   imports: [
     CommonModule,
