@@ -2,24 +2,76 @@
 <div class="my-overlay"></div>
 <div class="pop-up">
     <h2>Chess Class Admission Form</h2>
-    <form (ngSubmit)="submitForm()" #admissionForm="ngForm">
+    <form (ngSubmit)="submitForm()" [formGroup]="form" class="form">
       <div class="form-group">
-        <label for="fullName">Full Name</label>
-        <input type="text" class="form-control" id="fullName" name="fullName" [(ngModel)]="formData.fullName" required>
+        <label for="studentName" class="form-label">Student Name</label>
+        <div class="name">
+          <input
+            type="text"
+            class="form-control"
+            id="studentFirstName"
+            formControlName="studentFirstName"
+            placeholder="First"
+            required
+          >
+          <input type="text" class="form-control" id="studentLastName" formControlName="studentLastName" placeholder="Last" required>  
+        </div>
       </div>
       <div class="form-group">
-        <label for="age">Age</label>
-        <input type="number" class="form-control" id="age" name="age" [(ngModel)]="formData.age" required>
+        <label for="grade" class="form-label">Grade</label>
+        <input type="number" class="form-control" id="grade" formControlName="grade" required>
       </div>
       <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" class="form-control" id="email" name="email" [(ngModel)]="formData.email" required>
+        <label for="school" class="form-label">School</label>
+        <input type="school" class="form-control" id="school" formControlName="school" required>
       </div>
       <div class="form-group">
-        <label for="phoneNumber">Phone Number</label>
-        <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" [(ngModel)]="formData.phoneNumber" required>
+        <label for="parentName" class="form-label">Parent Name</label>
+        <div class="name">
+          <input type="text" class="form-control" id="parentFirstname" formControlName="parentFirstName" placeholder="First" required>
+          <input type="text" class="form-control" id="parentLastName" formControlName="parentLastName" placeholder="Last" required>
+          </div>
       </div>
-      <button type="submit" class="btn btn-primary" [disabled]="admissionForm.invalid">Submit</button>
+      <div class="form-group">
+        <label for="email" class="form-label">Parent Email</label>
+        <input type="email" class="form-control" id="email" formControlName="email" required>
+      </div>
+      <div class="form-group">
+        <label for="phoneNumber" class="form-label">Phone Number</label>
+        <input type="tel" class="form-control" id="phoneNumber" formControlName="phoneNumber" required>
+      </div>
+      <div>
+        <label for="chessTournament" class="form-label">Have you played in a chess tournament before?</label>
+        <div class="align-single-row">
+          <div>
+            <input type="radio" id="chessTournamentYes" formControlName="chessTournament" value ="yes" class="selection">
+            <label for="chessTournamentYes">Yes</label>
+          </div>
+          <div>
+            <input type="radio" id="chessTournamentNo" formControlName="chessTournament" value="No" class="selection">
+            <label for="chessTournamentNo">No</label>
+          </div>
+        </div>
+      </div>
+      <div>
+        <label for="level" class="form-label">Level</label>
+        <div>
+          <input type="checkbox" id="levelBeginner" formControlName="levelBeginner" class="selection">
+          <label for="levelBeginner">Beginner</label>
+        </div>
+        <div>
+          <input type="checkbox" id="levelIntermediate" formControlName="levelIntermediate" class="selection">
+          <label for="levelIntermediate">Intermediate</label>
+        </div>
+        <div>
+          <input type="checkbox" id="levelAdvanced" formControlName="levelAdvanced" class="selection">
+          <label for="levelAdvanced">Advanced</label>
+        </div>
+      </div>
+      <div class="button-group">
+        <button type="button" (click)="closeForm()">Close</button>
+        <button type="submit" [disabled]="form.invalid" [title]="form.invalid ? 'Please add valid info': ''">Submit</button>
+      </div>
     </form>
   </div>
   
