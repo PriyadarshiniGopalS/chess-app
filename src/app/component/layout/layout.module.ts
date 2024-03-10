@@ -15,6 +15,7 @@ import { AchievementsComponent } from './achievements/achievements.component';
 import { AdmissionFormComponent } from './admission-form/admission-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
+import { EnrollPopUpComponent } from './enroll-pop-up/enroll-pop-up.component';
 
 const routes: Routes = [
   {
@@ -61,7 +62,8 @@ const routes: Routes = [
     ContactComponent,
     EventsComponent,
     AchievementsComponent,
-    AdmissionFormComponent
+    AdmissionFormComponent,
+    EnrollPopUpComponent
   ],
   imports: [
     MatDialogModule,

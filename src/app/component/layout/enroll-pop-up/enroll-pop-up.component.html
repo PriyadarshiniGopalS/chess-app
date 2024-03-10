@@ -1,0 +1,17 @@
+<div class="my-overlay"></div>
+<div class="pop-up">
+  <div class="role" *ngIf="formType === 'none'">
+    <h3>What best describes your current status?</h3>
+    <div class="button-group">
+      <button
+        (click)="formType = 'student'">
+        Student
+      </button>
+      <button
+        (click)="formType = 'working'">
+        Working Professional
+      </button>
+    </div>
+  </div>
+  <admission-form [formType]="formType" *ngIf="formType !== 'none'"></admission-form>
+</div>

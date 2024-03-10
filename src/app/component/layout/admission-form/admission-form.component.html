@@ -1,77 +1,266 @@
 <!-- Overlay -->
-<div class="my-overlay"></div>
-<div class="pop-up">
-    <h2>Chess Class Admission Form</h2>
-    <form (ngSubmit)="submitForm()" [formGroup]="form" class="form">
-      <div class="form-group">
-        <label for="studentName" class="form-label">Student Name</label>
-        <div class="name">
+<div class="form-container">
+  <h2 *ngIf="formType !== 'none'">Chess Class Admission Form</h2>
+  <form (ngSubmit)="submitStudentForm()" [formGroup]="studentForm" class="form" *ngIf="formType === 'student'">
+    <div class="form-group">
+      <label for="studentName" class="form-label">Student Name<span>*</span></label>
+      <div class="name" formGroupName="student">
+        <input
+          type="text"
+          class="form-control"
+          id="studentFirstName"
+          formControlName="studentFirstName"
+          placeholder="first name"
+          [class.error]="studentNameInvalid"
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="studentLastName"
+          formControlName="studentLastName"
+          placeholder="last name"
+        >  
+      </div>
+      <div *ngIf="studentNameInvalid" class="error-message">
+          <span>First Name should contain at least 2 characters.</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="grade" class="form-label">Grade<span>*</span></label>
+      <select id="grade" formControlName="grade" required class="form-control">
+        <option *ngFor="let grade of grades" [value]="grade">{{ grade }}</option>
+      </select>
+      <div *ngIf="gradeInvalid" class="error-message">
+          <span>Select a grade.</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="school" class="form-label">School<span>*</span></label>
+      <input type="school" class="form-control" id="school" formControlName="school">
+      <div *ngIf="schoolInvalid" class="error-message">
+          <span>School name should contain at least 5 characters.</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="parentName" class="form-label">Parent Name<span>*</span></label>
+      <div class="name" formGroupName="parent">
+        <input
+          type="text"
+          class="form-control"
+          id="parentFirstname"
+          formControlName="parentFirstName"
+          placeholder="first name"
+          [class.error]="parentNameInvalid"
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="parentLastName"
+          formControlName="parentLastName"
+          placeholder="last name"
+        >
+      </div>
+      <div *ngIf="parentNameInvalid" class="error-message">
+          <span>First Name should contain at least 2 characters.</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="email" class="form-label">Parent Email<span>*</span></label>
+      <input type="email" class="form-control" id="email" formControlName="email">
+      <div *ngIf="emailInvalid" class="error-message">
+          <span>Invalid email.</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="phoneNumber" class="form-label">Phone Number<span>*</span></label>
+      <input type="tel" class="form-control" id="phoneNumber" formControlName="phoneNumber">
+      <div *ngIf="phoneNumberInvalid" class="error-message">
+        <span>Invalid phone number.</span>
+      </div>
+    </div>
+    <div>
+      <label for="chessTournament" class="form-label">Have you played in a chess tournament before?<span>*</span></label>
+      <div class="align-single-row">
+        <div>
           <input
-            type="text"
-            class="form-control"
-            id="studentFirstName"
-            formControlName="studentFirstName"
-            placeholder="First"
-            required
+            type="radio"
+            id="chessTournamentYes"
+            formControlName="chessTournament"
+            value="yes"
+            class="selection"
           >
-          <input type="text" class="form-control" id="studentLastName" formControlName="studentLastName" placeholder="Last" required>  
+          <label for="chessTournamentYes">Yes</label>
+        </div>
+        <div>
+          <input
+            type="radio"
+            id="chessTournamentNo"
+            formControlName="chessTournament"
+            value="No"
+            class="selection"
+          >
+          <label for="chessTournamentNo">No</label>
         </div>
       </div>
-      <div class="form-group">
-        <label for="grade" class="form-label">Grade</label>
-        <input type="number" class="form-control" id="grade" formControlName="grade" required>
+      <div *ngIf="chessTournamentInvalid" class="error-message">
+        <span>Select an option.</span>
       </div>
-      <div class="form-group">
-        <label for="school" class="form-label">School</label>
-        <input type="school" class="form-control" id="school" formControlName="school" required>
-      </div>
-      <div class="form-group">
-        <label for="parentName" class="form-label">Parent Name</label>
-        <div class="name">
-          <input type="text" class="form-control" id="parentFirstname" formControlName="parentFirstName" placeholder="First" required>
-          <input type="text" class="form-control" id="parentLastName" formControlName="parentLastName" placeholder="Last" required>
-          </div>
-      </div>
-      <div class="form-group">
-        <label for="email" class="form-label">Parent Email</label>
-        <input type="email" class="form-control" id="email" formControlName="email" required>
-      </div>
-      <div class="form-group">
-        <label for="phoneNumber" class="form-label">Phone Number</label>
-        <input type="tel" class="form-control" id="phoneNumber" formControlName="phoneNumber" required>
+    </div>
+    <div formGroupName="chessLevel">
+      <label for="level" class="form-label">Level<span>*</span></label>
+      <div>
+        <input
+          type="checkbox"
+          id="levelBeginner"
+          formControlName="beginner"
+          class="selection"
+        >
+        <label for="levelBeginner">Beginner</label>
       </div>
       <div>
-        <label for="chessTournament" class="form-label">Have you played in a chess tournament before?</label>
-        <div class="align-single-row">
-          <div>
-            <input type="radio" id="chessTournamentYes" formControlName="chessTournament" value ="yes" class="selection">
-            <label for="chessTournamentYes">Yes</label>
-          </div>
-          <div>
-            <input type="radio" id="chessTournamentNo" formControlName="chessTournament" value="No" class="selection">
-            <label for="chessTournamentNo">No</label>
-          </div>
-        </div>
+        <input
+          type="checkbox"
+          id="levelIntermediate"
+          formControlName="intermediate"
+          class="selection"
+        >
+        <label for="levelIntermediate">Intermediate</label>
       </div>
       <div>
-        <label for="level" class="form-label">Level</label>
+        <input
+          type="checkbox"
+          id="levelAdvanced"
+          formControlName="advanced"
+          class="selection"
+        >
+        <label for="levelAdvanced">Advanced</label>
+      </div>
+      <div *ngIf="chessLevelInvalid" class="error-message">
+        <span>Select at least one level.</span>
+      </div>
+    </div>
+    <div class="button-group">
+      <button type="button" (click)="closeForm()">Close</button>
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+  <form (ngSubmit)="submitWorkingForm()" [formGroup]="workingForm" class="form" *ngIf="formType === 'working'">
+    <div class="form-group">
+      <label for="name" class="form-label">Name<span>*</span></label>
+      <div class="name" formGroupName="">
+        <input
+          type="text"
+          class="form-control"
+          id="firstName"
+          formControlName="firstName"
+          placeholder="first name"
+          [class.error]="nameInvalid"
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="lastName"
+          formControlName="lastName"
+          placeholder="last name"
+        >  
+      </div>
+      <div class="error-message" *ngIf="nameInvalid">
+          <span>First Name should contain minimum 2 characters.</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="age" class="form-label">age<span>*</span></label>
+      <input type="number" class="form-control" id="age" formControlName="age" [class.error]="ageInvalid">
+      <div class="error-message" *ngIf="ageInvalid">
+        <span>Age should be between 18 and 60.</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="email" class="form-label">Email<span>*</span></label>
+      <input type="email" class="form-control" id="email" formControlName="email" [class.error]="emailInvalid">
+      <div class="error-message" *ngIf="emailInvalid">
+        <span>Invalid email.</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="phoneNumber" class="form-label">Phone Number<span>*</span></label>
+      <input type="tel" class="form-control" id="phoneNumber" formControlName="phoneNumber" [class.error]="phoneNumberInvalid">
+      <div class="error-message" *ngIf="phoneNumberInvalid">
+        <span>Invalid phone number.</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="occupation" class="form-label">Occupation<span>*</span></label>
+      <input type="text" class="form-control" id="occupation" formControlName="occupation" [class.error]="occupationInvalid">
+      <div class="error-message" *ngIf="occupationInvalid">
+        <span>Occupation should contain at least 5 characters.</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="chessTournament" class="form-label">Have you played in a chess tournament before?<span>*</span></label>
+      <div class="align-single-row">
         <div>
-          <input type="checkbox" id="levelBeginner" formControlName="levelBeginner" class="selection">
-          <label for="levelBeginner">Beginner</label>
+          <input
+            type="radio"
+            id="chessTournamentYes"
+            formControlName="chessTournament"
+            value="yes"
+            class="selection"
+          >
+          <label for="chessTournamentYes">Yes</label>
         </div>
         <div>
-          <input type="checkbox" id="levelIntermediate" formControlName="levelIntermediate" class="selection">
-          <label for="levelIntermediate">Intermediate</label>
-        </div>
-        <div>
-          <input type="checkbox" id="levelAdvanced" formControlName="levelAdvanced" class="selection">
-          <label for="levelAdvanced">Advanced</label>
+          <input
+            type="radio"
+            id="chessTournamentNo"
+            formControlName="chessTournament"
+            value="No"
+            class="selection"
+          >
+          <label for="chessTournamentNo">No</label>
         </div>
       </div>
-      <div class="button-group">
-        <button type="button" (click)="closeForm()">Close</button>
-        <button type="submit" [disabled]="form.invalid" [title]="form.invalid ? 'Please add valid info': ''">Submit</button>
+      <div class="error-message" *ngIf="chessTournamentInvalid">
+        <span>Select an option.</span>
       </div>
-    </form>
-  </div>
+    </div>
+    <div formGroupName="chessLevel">
+      <label for="level" class="form-label">Level<span>*</span></label>
+      <div>
+        <input
+          type="checkbox"
+          id="levelBeginner"
+          formControlName="beginner"
+          class="selection"
+        >
+        <label for="levelBeginner">Beginner</label>
+      </div>
+      <div>
+        <input
+          type="checkbox"
+          id="levelIntermediate"
+          formControlName="intermediate"
+          class="selection"
+        >
+        <label for="levelIntermediate">Intermediate</label>
+      </div>
+      <div>
+        <input
+          type="checkbox"
+          id="levelAdvanced"
+          formControlName="advanced"
+          class="selection"
+        >
+        <label for="levelAdvanced">Advanced</label>
+      </div>
+      <div class="error-message" *ngIf="chessLevelInvalid">
+        <span>Select at least one level.</span>
+      </div>
+    </div>
+    <div class="button-group">
+      <button type="button" (click)="closeForm()">Close</button>
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+</div>
   

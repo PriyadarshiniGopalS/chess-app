@@ -1,43 +1,138 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-admission-form',
+  selector: 'admission-form',
   templateUrl: './admission-form.component.html',
   styleUrls: ['./admission-form.component.css']
 })
 export class AdmissionFormComponent implements OnInit {
-  form: FormGroup; // Define form group
-  formData: any = {};
-  toolTip = '';
+  @Input() public formType: 'none' | 'student' | 'working' = 'none';
 
-  constructor(public dialogRef: MatDialogRef<AdmissionFormComponent>, private fb: FormBuilder) {
+  studentForm: FormGroup;
+  workingForm: FormGroup;
+  toolTip = '';
+  studentNameInvalid = false;
+  gradeInvalid = false;
+  schoolInvalid = false;
+  parentNameInvalid = false;
+  emailInvalid = false;
+  phoneNumberInvalid = false;
+  chessTournamentInvalid = false;
+  chessLevelInvalid = false;
+  isParentNameValid = false;
+  ageInvalid = false;
+  occupationInvalid = false;
+  nameInvalid = false;
+  grades: (string | number)[] = ['Pre-KG', 'KG', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  
+  constructor(public dialogRef: MatDialogRef<AdmissionFormComponent>, private formBuilder: FormBuilder) {
     // Initialize form using FormBuilder
-    this.form = this.fb.group({
-      studentFirstName: ['', Validators.required], // Create FormControl for studentFirstName
-      studentLastName: ['', Validators.required],
-      grade: ['', Validators.required], // Create FormControl for grade
-      school: ['', Validators.required], // Create FormControl for school
-      parentFirstName: ['', Validators.required], // Create FormControl for parentFirstName
-      parentLastName: ['', Validators.required],
+    this.studentForm = this.formBuilder.group({
+      student: this.formBuilder.group({
+        studentFirstName: ['', [Validators.required, Validators.minLength(2)]], // Create FormControl for studentFirstName
+        studentLastName: ['', Validators.required],
+      }),
+      grade: ['', [Validators.required,  this.gradeValidator]], // Create FormControl for grade
+      school: ['', Validators.required],
+      parent: this.formBuilder.group({
+        parentFirstName: ['', Validators.required], // Create FormControl for parentFirstName
+        parentLastName: ['', Validators.required]
+      }),
       email: ['', [Validators.required, Validators.email]], // Create FormControl for email
-      phoneNumber: ['', Validators.required], // Create FormControl for phoneNumber
-      chessTournament: ['', Validators.required], // Create FormControl for chessTournament
-      levelBeginner: [false], // Create FormControl for beginner
-      levelIntermediate: [false], // Create FormControl for intermediate
-      levelAdvanced: [false] // Create FormControl for advanced
+      phoneNumber: ['', [Validators.required, Validators.pattern('[0-9]*')]], // Create FormControl for phoneNumber
+      chessTournament: ['', Validators.required],
+      chessLevel: this.formBuilder.group({
+        beginner: [false], // Create FormControl for beginner
+        intermediate: [false], // Create FormControl for intermediate
+        advanced: [false] // Create FormControl for advanced
+      }, { validators: (formGroup: FormGroup) => {
+        const { beginner, intermediate, advanced } = formGroup.value;
+        if (!(beginner || intermediate || advanced)) {
+          return { noLevelSelected: true };
+        }
+        return null;
+      }})
+    });
+
+    this.workingForm = this.formBuilder.group({
+      name: this.formBuilder.group({
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required]
+      }),
+      age: ['', [Validators.required, Validators.pattern('[0-9]*')]],
+      email: ['', [Validators.required, Validators.email]],
+      phoneNumber: ['', [Validators.required, Validators.pattern('[0-9]*')]],
+      occupation: ['', Validators.required],
+      chessTournament: ['', Validators.required],
+      chessLevel: this.formBuilder.group({
+        beginner: [false], // Create FormControl for beginner
+        intermediate: [false], // Create FormControl for intermediate
+        advanced: [false] // Create FormControl for advanced
+      }, { validators: (formGroup: FormGroup) => {
+        const { beginner, intermediate, advanced } = formGroup.value;
+        if (!(beginner || intermediate || advanced)) {
+          return { noLevelSelected: true };
+        }
+        return null;
+      }})
     });
   }
-  ngOnInit(): void {
+
+  gradeValidator(control: FormControl) {
+    const value = control.value;
+    if (
+      !['Pre-KG', 'KG'].includes(value) &&
+      (isNaN(value) || parseInt(value) < 1 || parseInt(value) > 12)
+    ) {
+      return { invalidGrade: true };
+    }
+    return null;
   }
 
-  submitForm() {
-    this.dialogRef.close();
+  ngOnInit(): void {
+    const studentNameField = this.studentForm.get('student.studentFirstName');
+    studentNameField?.valueChanges.subscribe(() => {
+      this.studentNameInvalid = studentNameField?.valid ?? false;
+    });
+
+    const parentNameField = this.studentForm.get('parent.parentFirstName');
+    parentNameField?.valueChanges.subscribe(() => {
+      this.isParentNameValid = parentNameField?.valid ?? false;
+    });
+  }
+
+  submitStudentForm() {
+    if(this.studentForm.invalid) {
+      this.studentNameInvalid = this.studentForm.get('student.studentFirstName')?.invalid ?? false;
+      this.gradeInvalid = this.studentForm.get('grade')?.invalid ?? false;
+      this.schoolInvalid = this.studentForm.get('school')?.invalid ?? false;
+      this.parentNameInvalid = this.studentForm.get('parent.parentFirstName')?.invalid ?? false;
+      this.emailInvalid = this.studentForm.get('email')?.invalid ?? false;
+      this.phoneNumberInvalid = this.studentForm.get('phoneNumber')?.invalid ?? false;
+      this.chessTournamentInvalid = this.studentForm.get('chessTournament')?.invalid ?? false;
+      this.chessLevelInvalid = this.studentForm.get('chessLevel')?.invalid ?? false;
+    } else {
+      this.dialogRef.close();
+    }
+  }
+
+  submitWorkingForm() {
+    if(this.workingForm.invalid) {
+      this.nameInvalid = this.workingForm.get('name.firstName')?.invalid ?? false;
+      this.ageInvalid = this.workingForm.get('age')?.invalid ?? false;
+      this.emailInvalid = this.workingForm.get('email')?.invalid ?? false;
+      this.phoneNumberInvalid = this.workingForm.get('phoneNumber')?.invalid ?? false;
+      this.occupationInvalid = this.workingForm.get('occupation')?.invalid ?? false;
+      this.chessTournamentInvalid = this.workingForm.get('chessTournament')?.invalid ?? false;
+      this.chessLevelInvalid = this.workingForm.get('chessLevel')?.invalid ?? false;
+    } else {
+      this.dialogRef.close();
+    }
   }
 
   closeForm() {
     this.dialogRef.close();
   }
-  
 }

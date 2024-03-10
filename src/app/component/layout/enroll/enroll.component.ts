@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Tile } from '../model/tile.interface';
 import { MatDialog } from '@angular/material/dialog';
-import { AdmissionFormComponent } from '../admission-form/admission-form.component';
+import { EnrollPopUpComponent } from '../enroll-pop-up/enroll-pop-up.component';
 
 @Component({
   selector: 'ca-enroll',
@@ -54,7 +54,7 @@ export class EnrollComponent implements OnInit {
   }
 
   public open(): void {
-    const dialogRef = this.dialog.open(AdmissionFormComponent);
+    const dialogRef = this.dialog.open(EnrollPopUpComponent);
     
   // Add a class to the overlay when the dialog is opened
   dialogRef.afterOpened().subscribe(() => {
