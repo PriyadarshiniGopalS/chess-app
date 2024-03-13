@@ -80,3 +80,25 @@
   .error {
     border-color: #f44336; /* Change border color to indicate invalid input */
   }
+.pop-up-content {
+    padding: 5rem;
+    align-content: center;
+}
+@media (max-width: 912px) {
+    .pop-up {
+        width: 90%;
+        max-height: 80%;
+    }
+    .pop-up-content {
+        padding: 2rem;
+    }
+
+    .pop-up-button-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .pop-up-button-group > button {
+        margin-top: 1rem;
+    }
+}

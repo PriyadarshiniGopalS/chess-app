@@ -8,7 +8,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
   providers: [BreakpointObserver]
 })
 export class HeaderComponent implements OnInit {
-  mobileNumber = '+91 9943420844';
+  mobileNumber1 = '+91 9994948262';
+  mobileNumber2 = '+91 9994958262';
   emailAddress = 'whiteknightchessclub.india@gmail.com';
   
   isSmallScreen = false;

@@ -1,15 +1,15 @@
 <div class="my-overlay"></div>
 <div class="pop-up">
-    <div *ngIf="kitType === 'none'">
+    <div *ngIf="kitType === 'none'" class="pop-up-content">
         <h3 class="pop-up-header">Select Chess Kit Type</h3>
         <div class="pop-up-button-group">
             <button (click)="setKitType('standard')">
-                Standard <br>( Chess Board & Pieces )
+                <b>Standard</b> <br>Chess Board & Pieces
             </button>
             <button (click)="setKitType('elite')">
-                Elite <br>( Chess Board, Pieces & Clock )
+                <b>Elite</b> <br>Chess Board, Pieces & Clock
             </button>
         </div>
     </div>
-    <ca-kit-form [kitType]="kitType" *ngIf="kitType !== 'none'"></ca-kit-form>
+    <ca-kit-form [kitType]="kitType" *ngIf="kitType !== 'none'" class="pop-up-content"></ca-kit-form>
 </div>
