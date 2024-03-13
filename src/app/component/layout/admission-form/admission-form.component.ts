@@ -32,18 +32,21 @@ export class AdmissionFormComponent implements OnInit {
     // Initialize form using FormBuilder
     this.studentForm = this.formBuilder.group({
       student: this.formBuilder.group({
-        studentFirstName: ['', [Validators.required, Validators.minLength(2)]], // Create FormControl for studentFirstName
+        studentFirstName: ['', this.firstNameValidator], // Create FormControl for studentFirstName
         studentLastName: ['', Validators.required],
       }),
       grade: ['', [Validators.required,  this.gradeValidator]], // Create FormControl for grade
-      school: ['', Validators.required],
+      school: ['', [Validators.required, Validators.minLength(5)]],
       parent: this.formBuilder.group({
-        parentFirstName: ['', Validators.required], // Create FormControl for parentFirstName
+        parentFirstName: ['', this.firstNameValidator], // Create FormControl for parentFirstName
         parentLastName: ['', Validators.required]
       }),
-      email: ['', [Validators.required, Validators.email]], // Create FormControl for email
+      email: ['', this.mailValidator], // Create FormControl for email
       phoneNumber: ['', [Validators.required, Validators.pattern('[0-9]*')]], // Create FormControl for phoneNumber
-      chessTournament: ['', Validators.required],
+      fide: this.formBuilder.group({
+        id: ['', Validators.required],
+        rating: ['', Validators.required]
+      }),
       chessLevel: this.formBuilder.group({
         beginner: [false], // Create FormControl for beginner
         intermediate: [false], // Create FormControl for intermediate
@@ -81,6 +84,38 @@ export class AdmissionFormComponent implements OnInit {
     });
   }
 
+  private mailValidator(control: FormControl) {
+    const value = control.value;
+  if (!value) {
+    return { emailInvalid: true };
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailRegex.test(value)) {
+    return { emailInvalid: true };
+  }
+
+  const disposableEmailDomains = [
+    'mailinator.com',
+    'guerrillamail.com'
+  ];
+  const domain = value.split('@')[1];
+  if (disposableEmailDomains.includes(domain)) {
+    return { disposableEmail: true };
+  }
+
+  return null;
+  }
+
+  private firstNameValidator(control: FormControl) {
+    const value = control.value;
+    if (value && value.length >= 2) {
+      return { firstNameInvalid: true };
+    }
+    return { firstNameInvalid: false };
+  }
+
   gradeValidator(control: FormControl) {
     const value = control.value;
     if (
@@ -104,8 +139,8 @@ export class AdmissionFormComponent implements OnInit {
       this.emailInvalid = this.studentForm.get('email')?.invalid ?? false;
       this.phoneNumberInvalid = this.studentForm.get('phoneNumber')?.invalid ?? false;
       this.chessLevelInvalid = this.workingForm.get('chessLevel')?.invalid ?? false;
-      this.fideIdInvalid = this.studentForm.get('fideId')?.invalid ?? false;
-      this.fideRatingInvalid = this.studentForm.get('fideRating')?.invalid ?? false;
+      this.fideIdInvalid = this.studentForm.get('fide.id')?.invalid ?? false;
+      this.fideRatingInvalid = this.studentForm.get('fide.rating')?.invalid ?? false;
     } else {
       this.dialogRef.close();
     }
@@ -119,8 +154,8 @@ export class AdmissionFormComponent implements OnInit {
       this.phoneNumberInvalid = this.workingForm.get('phoneNumber')?.invalid ?? false;
       this.occupationInvalid = this.workingForm.get('occupation')?.invalid ?? false;
       this.chessLevelInvalid = this.workingForm.get('chessLevel')?.invalid ?? false;
-      this.fideIdInvalid = this.studentForm.get('fideId')?.invalid ?? false;
-      this.fideRatingInvalid = this.studentForm.get('fideRating')?.invalid ?? false;
+      this.fideIdInvalid = this.studentForm.get('fide.id')?.invalid ?? false;
+      this.fideRatingInvalid = this.studentForm.get('fide.rating')?.invalid ?? false;
     } else {
       this.dialogRef.close();
     }
