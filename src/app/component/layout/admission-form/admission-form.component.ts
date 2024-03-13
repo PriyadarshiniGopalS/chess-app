@@ -19,9 +19,10 @@ export class AdmissionFormComponent implements OnInit {
   parentNameInvalid = false;
   emailInvalid = false;
   phoneNumberInvalid = false;
-  chessTournamentInvalid = false;
   chessLevelInvalid = false;
-  isParentNameValid = false;
+  parentNameValid = false;
+  fideRatingInvalid = false;
+  fideIdInvalid = false;
   ageInvalid = false;
   occupationInvalid = false;
   nameInvalid = false;
@@ -92,15 +93,6 @@ export class AdmissionFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const studentNameField = this.studentForm.get('student.studentFirstName');
-    studentNameField?.valueChanges.subscribe(() => {
-      this.studentNameInvalid = studentNameField?.valid ?? false;
-    });
-
-    const parentNameField = this.studentForm.get('parent.parentFirstName');
-    parentNameField?.valueChanges.subscribe(() => {
-      this.isParentNameValid = parentNameField?.valid ?? false;
-    });
   }
 
   submitStudentForm() {
@@ -111,8 +103,9 @@ export class AdmissionFormComponent implements OnInit {
       this.parentNameInvalid = this.studentForm.get('parent.parentFirstName')?.invalid ?? false;
       this.emailInvalid = this.studentForm.get('email')?.invalid ?? false;
       this.phoneNumberInvalid = this.studentForm.get('phoneNumber')?.invalid ?? false;
-      this.chessTournamentInvalid = this.studentForm.get('chessTournament')?.invalid ?? false;
-      this.chessLevelInvalid = this.studentForm.get('chessLevel')?.invalid ?? false;
+      this.chessLevelInvalid = this.workingForm.get('chessLevel')?.invalid ?? false;
+      this.fideIdInvalid = this.studentForm.get('fideId')?.invalid ?? false;
+      this.fideRatingInvalid = this.studentForm.get('fideRating')?.invalid ?? false;
     } else {
       this.dialogRef.close();
     }
@@ -125,8 +118,9 @@ export class AdmissionFormComponent implements OnInit {
       this.emailInvalid = this.workingForm.get('email')?.invalid ?? false;
       this.phoneNumberInvalid = this.workingForm.get('phoneNumber')?.invalid ?? false;
       this.occupationInvalid = this.workingForm.get('occupation')?.invalid ?? false;
-      this.chessTournamentInvalid = this.workingForm.get('chessTournament')?.invalid ?? false;
       this.chessLevelInvalid = this.workingForm.get('chessLevel')?.invalid ?? false;
+      this.fideIdInvalid = this.studentForm.get('fideId')?.invalid ?? false;
+      this.fideRatingInvalid = this.studentForm.get('fideRating')?.invalid ?? false;
     } else {
       this.dialogRef.close();
     }

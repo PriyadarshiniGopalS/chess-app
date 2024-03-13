@@ -16,6 +16,9 @@ import { AdmissionFormComponent } from './admission-form/admission-form.componen
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { EnrollPopUpComponent } from './enroll-pop-up/enroll-pop-up.component';
+import { KitPopUpComponent } from './kit-pop-up/kit-pop-up.component';
+import { TournamentRegistrationPopUpComponent } from './tournament-registration-pop-up/tournament-pop-up.component';
+import { KitFormComponent } from './kit-form/kit-form.component';
 
 const routes: Routes = [
   {
@@ -63,7 +66,10 @@ const routes: Routes = [
     EventsComponent,
     AchievementsComponent,
     AdmissionFormComponent,
-    EnrollPopUpComponent
+    EnrollPopUpComponent,
+    KitPopUpComponent,
+    TournamentRegistrationPopUpComponent,
+    KitFormComponent
   ],
   imports: [
     MatDialogModule,

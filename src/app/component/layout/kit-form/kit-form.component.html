@@ -1,0 +1,59 @@
+<div class="form-container">
+    <h2 *ngIf="kitType !== 'none'" class="pop-up-header">Delivery Details</h2>
+    <form (ngSubmit)="submit()" [formGroup]="kitForm" class="form">
+        <div class="form-group">
+            <label for="details" class="form-label">
+                Kit Details
+            </label>
+            <input 
+                type="text-area" 
+                class="form-control" 
+                id="details" 
+                formControlName="details" 
+                value="kitDetails" 
+                readonly
+            >
+        </div>
+        <div class="form-group">
+            <label for="price" class="form-label">Amount to be paid</label>
+            <input 
+                type="number" 
+                class="form-control" 
+                id="price" 
+                formControlName="price" 
+                value="kitPrice" 
+                readonly
+            >
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber" class="form-label" [class.error]="phoneNumberInvalid">
+                Phone Number<span>*</span>
+            </label>
+            <input 
+                type="tel" 
+                class="form-control" 
+                id="phoneNumber" 
+                formControlName="phoneNumber"
+            >
+            <div *ngIf="phoneNumberInvalid" class="error-message">
+                <span>Invalid phone number.</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="address" class="form-label">Address<span>*</span></label>
+            <textarea 
+                class="form-control" 
+                id="address" 
+                formControlName="address" 
+                [class.error]="addressInvalid"
+            ></textarea>
+            <div *ngIf="addressInvalid" class="error-message">
+                <span>Invalid address.</span>
+            </div>
+        </div>
+        <div class="pop-up-button-group">
+            <button type="button" (click)="closeForm()">Close</button>
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+</div>

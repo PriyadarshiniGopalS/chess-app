@@ -5,4 +5,5 @@ export interface Tile {
   description2: string;
   buttonLink: string;
   buttonText: string;
+  clickHandler: () => void;
 }

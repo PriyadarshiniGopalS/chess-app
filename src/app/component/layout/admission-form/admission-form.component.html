@@ -1,6 +1,5 @@
-<!-- Overlay -->
 <div class="form-container">
-  <h2 *ngIf="formType !== 'none'">Chess Class Admission Form</h2>
+  <h2 *ngIf="formType !== 'none'" class="pop-up-header">Chess Class Admission Form</h2>
   <form (ngSubmit)="submitStudentForm()" [formGroup]="studentForm" class="form" *ngIf="formType === 'student'">
     <div class="form-group">
       <label for="studentName" class="form-label">Student Name<span>*</span></label>
@@ -27,7 +26,13 @@
     </div>
     <div class="form-group">
       <label for="grade" class="form-label">Grade<span>*</span></label>
-      <select id="grade" formControlName="grade" required class="form-control">
+      <select
+        id="grade"
+        formControlName="grade"
+        required
+        class="form-control"
+        [class.error]="gradeInvalid"
+      >
         <option *ngFor="let grade of grades" [value]="grade">{{ grade }}</option>
       </select>
       <div *ngIf="gradeInvalid" class="error-message">
@@ -36,7 +41,13 @@
     </div>
     <div class="form-group">
       <label for="school" class="form-label">School<span>*</span></label>
-      <input type="school" class="form-control" id="school" formControlName="school">
+      <input
+        type="school"
+        class="form-control"
+        id="school"
+        formControlName="school"
+        [class.error]="schoolInvalid"
+      >
       <div *ngIf="schoolInvalid" class="error-message">
           <span>School name should contain at least 5 characters.</span>
       </div>
@@ -66,48 +77,64 @@
     </div>
     <div class="form-group">
       <label for="email" class="form-label">Parent Email<span>*</span></label>
-      <input type="email" class="form-control" id="email" formControlName="email">
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        formControlName="email"
+        [class.error]="emailInvalid"
+      >
       <div *ngIf="emailInvalid" class="error-message">
           <span>Invalid email.</span>
       </div>
     </div>
     <div class="form-group">
       <label for="phoneNumber" class="form-label">Phone Number<span>*</span></label>
-      <input type="tel" class="form-control" id="phoneNumber" formControlName="phoneNumber">
+      <input
+        type="tel"
+        class="form-control"
+        id="phoneNumber"
+        formControlName="phoneNumber"
+        [class.error]="phoneNumberInvalid"
+      >
       <div *ngIf="phoneNumberInvalid" class="error-message">
         <span>Invalid phone number.</span>
       </div>
     </div>
-    <div>
-      <label for="chessTournament" class="form-label">Have you played in a chess tournament before?<span>*</span></label>
-      <div class="align-single-row">
-        <div>
-          <input
-            type="radio"
-            id="chessTournamentYes"
-            formControlName="chessTournament"
-            value="yes"
-            class="selection"
-          >
-          <label for="chessTournamentYes">Yes</label>
+    <div class="form-group">
+      <label for="fideId" class="form-label">Fide Id</label>
+      <div class="name" formGroupName="fide">
+        <input
+          type="text"
+          class="form-control"
+          id="fideId"
+          formControlName="id"
+          placeholder="Fide Id(optional)"
+          [class.error]="fideIdInvalid"
+        >
         </div>
-        <div>
-          <input
-            type="radio"
-            id="chessTournamentNo"
-            formControlName="chessTournament"
-            value="No"
-            class="selection"
-          >
-          <label for="chessTournamentNo">No</label>
-        </div>
-      </div>
-      <div *ngIf="chessTournamentInvalid" class="error-message">
-        <span>Select an option.</span>
+      <div *ngIf="fideIdInvalid" class="error-message">
+        <span>Enter valid Fide Id.</span>
       </div>
     </div>
-    <div formGroupName="chessLevel">
-      <label for="level" class="form-label">Level<span>*</span></label>
+    <div class="form-group">
+      <label for="fideRating" class="form-label">Fide Rating</label>
+      <div class="name" formGroupName="fide">
+        <input
+          type="text"
+          class="form-control"
+          id="fideRating"
+          formControlName="rating"
+          placeholder="Fide Rating(optional)"
+          [class.error]="fideRatingInvalid"
+        >
+      </div>
+      <div *ngIf="fideRatingInvalid" class="error-message">
+        <span>Enter valid Fide Rating.</span>
+      </div>
+    </div>
+    <div formGroupName="chessLevel"  class="form-group">
+      <label for="level" class="form-label">Level</label>
       <div>
         <input
           type="checkbox"
@@ -135,11 +162,8 @@
         >
         <label for="levelAdvanced">Advanced</label>
       </div>
-      <div *ngIf="chessLevelInvalid" class="error-message">
-        <span>Select at least one level.</span>
-      </div>
     </div>
-    <div class="button-group">
+    <div class="pop-up-button-group">
       <button type="button" (click)="closeForm()">Close</button>
       <button type="submit">Submit</button>
     </div>
@@ -170,62 +194,90 @@
     </div>
     <div class="form-group">
       <label for="age" class="form-label">age<span>*</span></label>
-      <input type="number" class="form-control" id="age" formControlName="age" [class.error]="ageInvalid">
+      <input
+        type="number"
+        class="form-control"
+        id="age"
+        formControlName="age"
+        [class.error]="ageInvalid"
+      >
       <div class="error-message" *ngIf="ageInvalid">
         <span>Age should be between 18 and 60.</span>
       </div>
     </div>
     <div class="form-group">
       <label for="email" class="form-label">Email<span>*</span></label>
-      <input type="email" class="form-control" id="email" formControlName="email" [class.error]="emailInvalid">
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        formControlName="email"
+        [class.error]="emailInvalid"
+      >
       <div class="error-message" *ngIf="emailInvalid">
         <span>Invalid email.</span>
       </div>
     </div>
     <div class="form-group">
       <label for="phoneNumber" class="form-label">Phone Number<span>*</span></label>
-      <input type="tel" class="form-control" id="phoneNumber" formControlName="phoneNumber" [class.error]="phoneNumberInvalid">
+      <input
+        type="tel"
+        class="form-control"
+        id="phoneNumber"
+        formControlName="phoneNumber"
+        [class.error]="phoneNumberInvalid"
+      >
       <div class="error-message" *ngIf="phoneNumberInvalid">
         <span>Invalid phone number.</span>
       </div>
     </div>
     <div class="form-group">
       <label for="occupation" class="form-label">Occupation<span>*</span></label>
-      <input type="text" class="form-control" id="occupation" formControlName="occupation" [class.error]="occupationInvalid">
+      <input
+        type="text"
+        class="form-control"
+        id="occupation"
+        formControlName="occupation"
+        [class.error]="occupationInvalid"
+      >
       <div class="error-message" *ngIf="occupationInvalid">
         <span>Occupation should contain at least 5 characters.</span>
       </div>
     </div>
     <div class="form-group">
-      <label for="chessTournament" class="form-label">Have you played in a chess tournament before?<span>*</span></label>
-      <div class="align-single-row">
-        <div>
-          <input
-            type="radio"
-            id="chessTournamentYes"
-            formControlName="chessTournament"
-            value="yes"
-            class="selection"
-          >
-          <label for="chessTournamentYes">Yes</label>
+      <label for="fideId" class="form-label">Fide Id</label>
+      <div class="name" formGroupName="fide">
+        <input
+          type="text"
+          class="form-control"
+          id="fideId"
+          formControlName="id"
+          placeholder="Fide Id(optional)"
+          [class.error]="fideIdInvalid"
+        >
         </div>
-        <div>
-          <input
-            type="radio"
-            id="chessTournamentNo"
-            formControlName="chessTournament"
-            value="No"
-            class="selection"
-          >
-          <label for="chessTournamentNo">No</label>
-        </div>
-      </div>
-      <div class="error-message" *ngIf="chessTournamentInvalid">
-        <span>Select an option.</span>
+      <div *ngIf="fideIdInvalid" class="error-message">
+        <span>Enter valid Fide Id.</span>
       </div>
     </div>
-    <div formGroupName="chessLevel">
-      <label for="level" class="form-label">Level<span>*</span></label>
+    <div class="form-group">
+      <label for="fideRating" class="form-label">Fide Rating</label>
+      <div class="name" formGroupName="fide">
+        <input
+          type="text"
+          class="form-control"
+          id="fideRating"
+          formControlName="rating"
+          placeholder="Fide Rating(optional)"
+          [class.error]="fideRatingInvalid"
+        >
+      </div>
+      <div *ngIf="fideRatingInvalid" class="error-message">
+        <span>Enter valid Fide Rating.</span>
+      </div>
+    </div>
+    <div formGroupName="chessLevel" class="form-group">
+      <label for="level" class="form-label">Level</label>
       <div>
         <input
           type="checkbox"
@@ -253,14 +305,10 @@
         >
         <label for="levelAdvanced">Advanced</label>
       </div>
-      <div class="error-message" *ngIf="chessLevelInvalid">
-        <span>Select at least one level.</span>
-      </div>
     </div>
-    <div class="button-group">
+    <div class="pop-up-button-group">
       <button type="button" (click)="closeForm()">Close</button>
       <button type="submit">Submit</button>
     </div>
   </form>
 </div>
-  
