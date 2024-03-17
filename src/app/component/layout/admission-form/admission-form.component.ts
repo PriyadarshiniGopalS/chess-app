@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { EnrollService } from 'src/app/services/enroll.service';
 
 @Component({
   selector: 'admission-form',
@@ -28,36 +29,34 @@ export class AdmissionFormComponent implements OnInit {
   nameInvalid = false;
   grades: (string | number)[] = ['Pre-KG', 'KG', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   
-  constructor(public dialogRef: MatDialogRef<AdmissionFormComponent>, private formBuilder: FormBuilder) {
+  constructor(
+    public dialogRef: MatDialogRef<AdmissionFormComponent>,
+    private formBuilder: FormBuilder,
+    private readonly enrollService: EnrollService
+  ) {
     // Initialize form using FormBuilder
     this.studentForm = this.formBuilder.group({
       student: this.formBuilder.group({
         studentFirstName: ['', this.firstNameValidator], // Create FormControl for studentFirstName
-        studentLastName: ['', Validators.required],
+        studentLastName: [''],
       }),
       grade: ['', [Validators.required,  this.gradeValidator]], // Create FormControl for grade
       school: ['', [Validators.required, Validators.minLength(5)]],
       parent: this.formBuilder.group({
         parentFirstName: ['', this.firstNameValidator], // Create FormControl for parentFirstName
-        parentLastName: ['', Validators.required]
+        parentLastName: ['']
       }),
       email: ['', this.mailValidator], // Create FormControl for email
       phoneNumber: ['', [Validators.required, Validators.pattern('[0-9]*')]], // Create FormControl for phoneNumber
       fide: this.formBuilder.group({
-        id: ['', Validators.required],
-        rating: ['', Validators.required]
+        id: ['', this.fideIdValidator],
+        rating: ['', this.fideRatingValidator]
       }),
       chessLevel: this.formBuilder.group({
         beginner: [false], // Create FormControl for beginner
         intermediate: [false], // Create FormControl for intermediate
         advanced: [false] // Create FormControl for advanced
-      }, { validators: (formGroup: FormGroup) => {
-        const { beginner, intermediate, advanced } = formGroup.value;
-        if (!(beginner || intermediate || advanced)) {
-          return { noLevelSelected: true };
-        }
-        return null;
-      }})
+      })
     });
 
     this.workingForm = this.formBuilder.group({
@@ -86,34 +85,50 @@ export class AdmissionFormComponent implements OnInit {
 
   private mailValidator(control: FormControl) {
     const value = control.value;
-  if (!value) {
-    return { emailInvalid: true };
+    if (!value) {
+      return { emailInvalid: true };
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(value)) {
+      return { emailInvalid: true };
+    }
+
+    const disposableEmailDomains = [
+      'mailinator.com',
+      'guerrillamail.com'
+    ];
+    const domain = value.split('@')[1];
+    if (disposableEmailDomains.includes(domain)) {
+      return { disposableEmail: true };
+    }
+
+    return null;
   }
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  if (!emailRegex.test(value)) {
-    return { emailInvalid: true };
+  private fideIdValidator(control: FormControl) {
+    const value = control.value;
+    if (value && (isNaN(value) || value.length !== 7)) {
+      return { fideIdInvalid: true };
+    }
+    return null;
   }
 
-  const disposableEmailDomains = [
-    'mailinator.com',
-    'guerrillamail.com'
-  ];
-  const domain = value.split('@')[1];
-  if (disposableEmailDomains.includes(domain)) {
-    return { disposableEmail: true };
-  }
-
-  return null;
+  private fideRatingValidator(control: FormControl) {
+    const value = control.value;
+    if (value && (isNaN(value) || parseInt(value) < 1000 || parseInt(value) > 3000)) {
+      return { fideRatingInvalid: true };
+    }
+    return null;
   }
 
   private firstNameValidator(control: FormControl) {
     const value = control.value;
     if (value && value.length >= 2) {
-      return { firstNameInvalid: true };
+      return null;
     }
-    return { firstNameInvalid: false };
+    return { firstNameInvalid: true };
   }
 
   gradeValidator(control: FormControl) {
@@ -131,19 +146,32 @@ export class AdmissionFormComponent implements OnInit {
   }
 
   submitStudentForm() {
-    if(this.studentForm.invalid) {
-      this.studentNameInvalid = this.studentForm.get('student.studentFirstName')?.invalid ?? false;
-      this.gradeInvalid = this.studentForm.get('grade')?.invalid ?? false;
-      this.schoolInvalid = this.studentForm.get('school')?.invalid ?? false;
-      this.parentNameInvalid = this.studentForm.get('parent.parentFirstName')?.invalid ?? false;
-      this.emailInvalid = this.studentForm.get('email')?.invalid ?? false;
-      this.phoneNumberInvalid = this.studentForm.get('phoneNumber')?.invalid ?? false;
-      this.chessLevelInvalid = this.workingForm.get('chessLevel')?.invalid ?? false;
-      this.fideIdInvalid = this.studentForm.get('fide.id')?.invalid ?? false;
-      this.fideRatingInvalid = this.studentForm.get('fide.rating')?.invalid ?? false;
-    } else {
-      this.dialogRef.close();
-    }
+    // if(this.studentForm.invalid) {
+    //   this.studentNameInvalid = this.studentForm.get('student.studentFirstName')?.invalid ?? false;
+    //   this.gradeInvalid = this.studentForm.get('grade')?.invalid ?? false;
+    //   this.schoolInvalid = this.studentForm.get('school')?.invalid ?? false;
+    //   this.parentNameInvalid = this.studentForm.get('parent.parentFirstName')?.invalid ?? false;
+    //   this.emailInvalid = this.studentForm.get('email')?.invalid ?? false;
+    //   this.phoneNumberInvalid = this.studentForm.get('phoneNumber')?.invalid ?? false;
+    //   this.chessLevelInvalid = this.workingForm.get('chessLevel')?.invalid ?? false;
+    //   this.fideIdInvalid = this.studentForm.get('fide.id')?.invalid ?? false;
+    //   this.fideRatingInvalid = this.studentForm.get('fide.rating')?.invalid ?? false;
+    // } else {
+    //   this.enrollService.addStudent(this.studentForm.value).subscribe((response) => {
+    //     if(response) {
+    //       this.dialogRef.close();
+    //     } else {
+    //       this.toolTip = 'Same student already exists';
+    //     }
+    //   });
+    // }
+    this.enrollService.addStudent(this.studentForm.value).subscribe((response) => {
+      if(response) {
+        this.dialogRef.close();
+      } else {
+        this.toolTip = 'Same student already exists';
+      }
+    });
   }
 
   submitWorkingForm() {

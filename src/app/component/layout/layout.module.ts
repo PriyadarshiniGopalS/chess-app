@@ -19,6 +19,7 @@ import { EnrollPopUpComponent } from './enroll-pop-up/enroll-pop-up.component';
 import { KitPopUpComponent } from './kit-pop-up/kit-pop-up.component';
 import { TournamentRegistrationPopUpComponent } from './tournament-registration-pop-up/tournament-pop-up.component';
 import { KitFormComponent } from './kit-form/kit-form.component';
+import { HttpClientModule } from '@angular/common/http';
 
 const routes: Routes = [
   {
@@ -75,7 +76,8 @@ const routes: Routes = [
     MatDialogModule,
     ReactiveFormsModule,
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    HttpClientModule
   ],
   exports: [
     LayoutComponent
