@@ -53,9 +53,9 @@ export class AdmissionFormComponent implements OnInit {
         rating: ['', this.fideRatingValidator]
       }),
       chessLevel: this.formBuilder.group({
-        beginner: [false], // Create FormControl for beginner
-        intermediate: [false], // Create FormControl for intermediate
-        advanced: [false] // Create FormControl for advanced
+        beginner: [''], // Create FormControl for beginner
+        intermediate: [''], // Create FormControl for intermediate
+        advanced: [''] // Create FormControl for advanced
       })
     });
 
@@ -146,32 +146,37 @@ export class AdmissionFormComponent implements OnInit {
   }
 
   submitStudentForm() {
-    // if(this.studentForm.invalid) {
-    //   this.studentNameInvalid = this.studentForm.get('student.studentFirstName')?.invalid ?? false;
-    //   this.gradeInvalid = this.studentForm.get('grade')?.invalid ?? false;
-    //   this.schoolInvalid = this.studentForm.get('school')?.invalid ?? false;
-    //   this.parentNameInvalid = this.studentForm.get('parent.parentFirstName')?.invalid ?? false;
-    //   this.emailInvalid = this.studentForm.get('email')?.invalid ?? false;
-    //   this.phoneNumberInvalid = this.studentForm.get('phoneNumber')?.invalid ?? false;
-    //   this.chessLevelInvalid = this.workingForm.get('chessLevel')?.invalid ?? false;
-    //   this.fideIdInvalid = this.studentForm.get('fide.id')?.invalid ?? false;
-    //   this.fideRatingInvalid = this.studentForm.get('fide.rating')?.invalid ?? false;
-    // } else {
-    //   this.enrollService.addStudent(this.studentForm.value).subscribe((response) => {
-    //     if(response) {
-    //       this.dialogRef.close();
-    //     } else {
-    //       this.toolTip = 'Same student already exists';
-    //     }
-    //   });
-    // }
-    this.enrollService.addStudent(this.studentForm.value).subscribe((response) => {
-      if(response) {
-        this.dialogRef.close();
-      } else {
-        this.toolTip = 'Same student already exists';
-      }
-    });
+    if(this.studentForm.invalid) {
+      this.studentNameInvalid = this.studentForm.get('student.studentFirstName')?.invalid ?? false;
+      this.gradeInvalid = this.studentForm.get('grade')?.invalid ?? false;
+      this.schoolInvalid = this.studentForm.get('school')?.invalid ?? false;
+      this.parentNameInvalid = this.studentForm.get('parent.parentFirstName')?.invalid ?? false;
+      this.emailInvalid = this.studentForm.get('email')?.invalid ?? false;
+      this.phoneNumberInvalid = this.studentForm.get('phoneNumber')?.invalid ?? false;
+      this.chessLevelInvalid = this.workingForm.get('chessLevel')?.invalid ?? false;
+      this.fideIdInvalid = this.studentForm.get('fide.id')?.invalid ?? false;
+      this.fideRatingInvalid = this.studentForm.get('fide.rating')?.invalid ?? false;
+    } else {
+      const request = {
+        name: `${this.studentForm.get('student.studentFirstName')?.value} ${this.studentForm.get('student.studentLastName')?.value}`,
+        grade: this.studentForm.get('grade')?.value,
+        school: this.studentForm.get('school')?.value,
+        parentName: `${this.studentForm.get('parent.parentFirstName')?.value} ${this.studentForm.get('parent.parentLastName')?.value}`,
+        parentEmail: this.studentForm.get('email')?.value,
+        phoneNumber: this.studentForm.get('phoneNumber')?.value,
+        fideID: this.studentForm.get('fide.id')?.value,
+        fideRating: this.studentForm.get('fide.rating')?.value,
+        fideRatingLevel: this.studentForm.get('chessLevel.beginner')?.value + this.studentForm.get('chessLevel.intermediate')?.value + this.studentForm.get('chessLevel.advanced')?.value
+      };
+
+      this.enrollService.addStudent(request).subscribe((response) => {
+        if(response) {
+          this.dialogRef.close();
+        } else {
+          this.toolTip = 'Same student already exists';
+        }
+      });
+    }
   }
 
   submitWorkingForm() {
