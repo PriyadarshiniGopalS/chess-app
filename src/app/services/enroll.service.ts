@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Student } from './models/student.model';
 import { Professional } from './models/professional.model';
 
@@ -13,16 +13,12 @@ export class EnrollService {
   constructor(private http: HttpClient) { }
 
   // Method to add a new student
-  addStudent(studentData: Student): Observable<boolean> {
-    return this.http.post<Student>(`${this.apiUrl}/students`, studentData).pipe(
-      map((response: any) => {
-        return response.success;
-      })
-    );
+  addStudent(studentData: Student): Observable<HttpResponse<Student>> {
+    return this.http.post<HttpResponse<Student>>(`${this.apiUrl}/students`, studentData);
   }
 
   // Method to add a new professional
-  addProfessional(professionalData: Professional): Observable<boolean> {
-    return this.http.post<any>(`${this.apiUrl}/professionals`, professionalData);
+  addProfessional(professionalData: Professional): Observable<HttpResponse<Professional>> {
+    return this.http.post<HttpResponse<Professional>>(`${this.apiUrl}/professionals`, professionalData);
   }
 }

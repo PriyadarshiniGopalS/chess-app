@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { catchError, map, of } from 'rxjs';
 import { EnrollService } from 'src/app/services/enroll.service';
 
 @Component({
@@ -13,6 +14,8 @@ export class AdmissionFormComponent implements OnInit {
 
   studentForm: FormGroup;
   workingForm: FormGroup;
+  studentExist = false;
+  professionalExist = false;
   toolTip = '';
   grades: (string | number)[] = ['Pre-KG', 'KG', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   
@@ -26,8 +29,8 @@ export class AdmissionFormComponent implements OnInit {
         studentFirstName: ['', this.firstNameValidator],
         studentLastName: [''],
       }),
-      dateOfBirth: ['' , [Validators.required]],
-      age: ['', [Validators.required, (control: { value: number; }) => control.value < 5 || control.value > 18 ? { ageInvalid: true } : null]],
+      dateOfBirth: [Validators.required],
+      age: [[Validators.required, (control: { value: number; }) => control.value < 5 || control.value > 18 ? { ageInvalid: true } : null]],
       grade: ['', [Validators.required]],
       school: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
       parent: this.formBuilder.group({
@@ -37,10 +40,10 @@ export class AdmissionFormComponent implements OnInit {
       email: ['', this.mailValidator],
       phoneNumber: ['', this.phoneNumberValidator],
       fide: this.formBuilder.group({
-        id: ['', this.fideIdValidator],
-        rating: ['', this.fideRatingValidator]
+        id: [this.fideIdValidator],
+        rating: [this.fideRatingValidator]
       }),
-      gameLevel: ['']
+      gameLevel: []
     });
 
     this.workingForm = this.formBuilder.group({
@@ -48,16 +51,16 @@ export class AdmissionFormComponent implements OnInit {
         firstName: ['', this.firstNameValidator],
         lastName: ['']
       }),
-      dateOfBirth: ['' , [Validators.required]],
-      age: ['', [Validators.required,  (control: { value: number; }) => control.value < 18 || control.value > 100 ? { ageInvalid: true } : null]],
+      dateOfBirth: [Validators.required],
+      age: [Validators.required,  (control: { value: number; }) => control.value < 18 || control.value > 100 ? { ageInvalid: true } : null],
       email: ['', this.mailValidator],
       phoneNumber: ['', this.phoneNumberValidator],
       fide: this.formBuilder.group({
-        id: ['', this.fideIdValidator],
-        rating: ['', this.fideRatingValidator]
+        id: [this.fideIdValidator],
+        rating: [this.fideRatingValidator]
       }),
       occupation: ['', this.firstNameValidator],
-      gameLevel: ['']
+      gameLevel: []
     });
   }
 
@@ -76,6 +79,8 @@ export class AdmissionFormComponent implements OnInit {
   }
 
   submitStudentForm() {
+    this.studentExist = false;
+    this.professionalExist = false;
     if(this.studentForm.invalid) {
       this.studentForm.markAllAsTouched();
     } else {
@@ -93,13 +98,14 @@ export class AdmissionFormComponent implements OnInit {
         gameLevel: this.studentForm.get('gameLevel')?.value
       };
 
-      this.enrollService.addStudent(request).subscribe((response) => {
-        if(response) {
-          this.dialogRef.close();
-        } else {
-          this.toolTip = 'Same student is already enrolled';
-        }
-      });
+      this.enrollService.addStudent(request).pipe(
+        map(() => this.dialogRef.close()),
+         catchError((error) => {
+          this.studentExist = true;
+          console.error(error);
+          return of(null);
+        })
+      ).subscribe();
     }
   }
 
@@ -107,25 +113,26 @@ export class AdmissionFormComponent implements OnInit {
     if(this.workingForm.invalid) {
       this.workingForm.markAllAsTouched();
     } else {
-      const request = {
-      name: `${this.workingForm.get('name.firstName')?.value} ${this.workingForm.get('name.lastName')?.value}`,
-      age: this.workingForm.get('age')?.value,
-      dateOfBirth: this.workingForm.get('dateOfBirth')?.value,
-      email: this.workingForm.get('email')?.value,
-      phoneNumber: this.workingForm.get('phoneNumber')?.value,
-      fideID: this.workingForm.get('fide.id')?.value,
-      fideRating: this.workingForm.get('fide.rating')?.value,
-      gameLevel: this.workingForm.get('gameLevel')?.value,
-      occupation: this.workingForm.get('occupation')?.value      
-    };
+        const request = {
+        name: `${this.workingForm.get('name.firstName')?.value} ${this.workingForm.get('name.lastName')?.value}`,
+        age: this.workingForm.get('age')?.value,
+        dateOfBirth: this.workingForm.get('dateOfBirth')?.value,
+        email: this.workingForm.get('email')?.value,
+        phoneNumber: this.workingForm.get('phoneNumber')?.value,
+        fideID: this.workingForm.get('fide.id')?.value,
+        fideRating: this.workingForm.get('fide.rating')?.value,
+        gameLevel: this.workingForm.get('gameLevel')?.value,
+        occupation: this.workingForm.get('occupation')?.value      
+      };
 
-    this.enrollService.addProfessional(request).subscribe((response) => {
-      if(response) {
-        this.dialogRef.close();
-      } else {
-        this.toolTip = 'Same working professional is already enrolled';
-      }
-    });
+      this.enrollService.addProfessional(request).pipe(
+        map(() => this.dialogRef.close()),
+        catchError((error) => {
+          this.professionalExist = true;
+          console.error(error);
+          return of(null);
+        })
+      ).subscribe();
     }
   }
 

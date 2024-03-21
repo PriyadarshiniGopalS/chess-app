@@ -6,7 +6,7 @@ export interface Professional {
     occupation: string;
     email: string;
     phoneNumber: string;
-    fideID?: string;
+    fideID?: number;
     fideRating?: number;
     gameLevel?: string;
 }

@@ -6,7 +6,9 @@ export interface Student {
     parentName: string;
     parentEmail: string;
     phoneNumber: string;
-    fideID?: string;
+    fideID?: number;
     fideRating?: number;
     gameLevel?: string;
+    age?: number;
+    dateOfBirth?: Date;
 }

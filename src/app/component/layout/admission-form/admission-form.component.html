@@ -134,7 +134,7 @@
       <label for="fideId" class="form-label">Fide Id</label>
       <div class="name" formGroupName="fide">
         <input
-          type="text"
+          type="number"
           class="form-control"
           id="fideId"
           formControlName="id"
@@ -150,7 +150,7 @@
       <label for="fideRating" class="form-label">Fide Rating</label>
       <div class="name" formGroupName="fide">
         <input
-          type="text"
+          type="number"
           class="form-control"
           id="fideRating"
           formControlName="rating"
@@ -194,6 +194,9 @@
         >
         <label for="levelAdvanced">Advanced</label>
       </div>
+    </div>
+    <div class="form-group error-message" *ngIf="studentExist">
+      <span style="text-align: center;"><b>Student already exist!</b></span>
     </div>
     <div class="pop-up-button-group">
       <button type="button" (click)="closeForm()">Close</button>
@@ -296,7 +299,7 @@
       <label for="fideId" class="form-label">Fide Id</label>
       <div class="name" formGroupName="fide">
         <input
-          type="text"
+          type="number"
           class="form-control"
           id="fideId"
           formControlName="id"
@@ -312,7 +315,7 @@
       <label for="fideRating" class="form-label">Fide Rating</label>
       <div class="name" formGroupName="fide">
         <input
-          type="text"
+          type="number"
           class="form-control"
           id="fideRating"
           formControlName="rating"
@@ -356,6 +359,9 @@
         >
         <label for="levelAdvanced">Advanced</label>
       </div>
+    </div>
+    <div class="form-group error-message" *ngIf="professionalExist">
+      <span style="text-align: center;"><b>Professional already exist!</b></span>
     </div>
     <div class="pop-up-button-group">
       <button type="button" (click)="closeForm()">Close</button>
