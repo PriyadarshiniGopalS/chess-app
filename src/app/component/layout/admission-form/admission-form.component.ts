@@ -15,7 +15,6 @@ export class AdmissionFormComponent implements OnInit {
   workingForm: FormGroup;
   toolTip = '';
   grades: (string | number)[] = ['Pre-KG', 'KG', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-  age: number | undefined;
   
   constructor(
     public dialogRef: MatDialogRef<AdmissionFormComponent>,
@@ -27,8 +26,8 @@ export class AdmissionFormComponent implements OnInit {
         studentFirstName: ['', this.firstNameValidator],
         studentLastName: [''],
       }),
-      dateOfBirth: ['' , this.dateOfBirthValidator],
-      age: ['', [Validators.required]],
+      dateOfBirth: ['' , [Validators.required]],
+      age: ['', [Validators.required, (control: { value: number; }) => control.value < 5 || control.value > 18 ? { ageInvalid: true } : null]],
       grade: ['', [Validators.required]],
       school: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
       parent: this.formBuilder.group({
@@ -47,16 +46,17 @@ export class AdmissionFormComponent implements OnInit {
     this.workingForm = this.formBuilder.group({
       name: this.formBuilder.group({
         firstName: ['', this.firstNameValidator],
-        lastName: ['', Validators.required]
+        lastName: ['']
       }),
-      dateOfBirth: ['' , this.dateOfBirthValidator],
-      age: ['', [Validators.required]],
+      dateOfBirth: ['' , [Validators.required]],
+      age: ['', [Validators.required,  (control: { value: number; }) => control.value < 18 || control.value > 100 ? { ageInvalid: true } : null]],
       email: ['', this.mailValidator],
       phoneNumber: ['', this.phoneNumberValidator],
       fide: this.formBuilder.group({
         id: ['', this.fideIdValidator],
         rating: ['', this.fideRatingValidator]
       }),
+      occupation: ['', this.firstNameValidator],
       chessLevel: ['']
     });
   }
@@ -69,7 +69,7 @@ export class AdmissionFormComponent implements OnInit {
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
       age--;
     }
-    this.age = age;
+    this.setAge(age);
   }
 
   ngOnInit(): void {
@@ -116,7 +116,7 @@ export class AdmissionFormComponent implements OnInit {
       fideID: this.workingForm.get('fide.id')?.value,
       fideRating: this.workingForm.get('fide.rating')?.value,
       fideRatingLevel: this.workingForm.get('chessLevel')?.value,
-      occupation: this.workingForm.get('Occupations')?.value      
+      occupation: this.workingForm.get('Occupation')?.value      
     };
 
     this.enrollService.addProfessional(request).subscribe((response) => {
@@ -139,14 +139,6 @@ export class AdmissionFormComponent implements OnInit {
       return null;
     }
     return { firstNameInvalid: true };
-  }
-
-  private dateOfBirthValidator(control: FormControl) {
-    const value = control.value;
-    if (!value) {
-      return { dateOfBirthInvalid: true };
-    }
-    return null;
   }
 
   private phoneNumberValidator(control: FormControl) {
@@ -190,7 +182,7 @@ export class AdmissionFormComponent implements OnInit {
 
   private fideIdValidator(control: FormControl) {
     const value = control.value;
-    if (value && (isNaN(value) || value.length < 6 || value.length > 9)) {
+    if (value && (isNaN(value) || value.length < 7 || value.length > 9)) {
       return { fideIdInvalid: true };
     }
     return null;
@@ -213,13 +205,21 @@ export class AdmissionFormComponent implements OnInit {
     return null;
   }
 
+  private setAge(age: number) {
+   this.getFormControl('age')?.setValue(age);
+  }
+
+  private get age() {
+    return this.getFormControl('age')?.value;
+  }
+
   controlInvalid(controlName: string) {
     const control = this.getFormControl(controlName);
     return control?.touched && control?.invalid;
   }
 
-  dateOfBirthControlInvalid(minAge: number, maxAge: number) {
-    return this.controlInvalid('dateOfBirth') || (this.age !== undefined && (this.age < minAge || this.age > maxAge));
+  dateOfBirthControlInvalid() {
+    return this.controlInvalid('dateOfBirth') || ( this.age !== "" && this.getFormControl('age')?.invalid);
   }
 
 }

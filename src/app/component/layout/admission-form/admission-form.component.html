@@ -34,7 +34,7 @@
             id="dateOfBirth"
             formControlName="dateOfBirth"
             placeholder="dd/mm/yyyy"
-            [class.error]="dateOfBirthControlInvalid(5, 21)"
+            [class.error]="dateOfBirthControlInvalid()"
             (change)="calculateAge($event)"
           >
         </div>
@@ -45,12 +45,11 @@
             class="form-control"
             id="age"
             formControlName="age"
-            [value]="age"
             readonly
           >
         </div>
       </div>
-      <div *ngIf="dateOfBirthControlInvalid(5, 21)" class="error-message">
+      <div *ngIf="dateOfBirthControlInvalid()" class="error-message">
         <span>Select a valid date. Student age should be 5 to 21.</span>
       </div>
     </div>
@@ -140,10 +139,10 @@
           id="fideId"
           formControlName="id"
           placeholder="Fide Id(optional)"
-          [class.error]="controlInvalid('fideId')"
+          [class.error]="controlInvalid('fide.id')"
         >
         </div>
-      <div *ngIf="controlInvalid('fideId')" class="error-message">
+      <div *ngIf="controlInvalid('fide.id')" class="error-message">
         <span>Enter valid Fide Id (7-9 characters contain number only).</span>
       </div>
     </div>
@@ -156,10 +155,10 @@
           id="fideRating"
           formControlName="rating"
           placeholder="Fide Rating(optional)"
-          [class.error]="controlInvalid('fideRating')"
+          [class.error]="controlInvalid('fide.rating')"
         >
       </div>
-      <div *ngIf="controlInvalid('fideRating')" class="error-message">
+      <div *ngIf="controlInvalid('fide.rating')" class="error-message">
         <span>Enter valid Fide Rating (1400 - 3000 range).</span>
       </div>
     </div>
@@ -235,7 +234,7 @@
             id="dateOfBirth"
             formControlName="dateOfBirth"
             placeholder="dd/mm/yyyy"
-            [class.error]="dateOfBirthControlInvalid(18, 100)"
+            [class.error]="dateOfBirthControlInvalid()"
             (change)="calculateAge($event)"
           >
         </div>
@@ -246,12 +245,11 @@
             class="form-control"
             id="age"
             formControlName="age"
-            [value]="age"
             readonly
           >
         </div>
       </div>
-      <div *ngIf="dateOfBirthControlInvalid(18, 100)" class="error-message">
+      <div *ngIf="dateOfBirthControlInvalid()" class="error-message">
         <span>Select a valid date. Age should be above 18.</span>
       </div>
     </div>
@@ -303,10 +301,10 @@
           id="fideId"
           formControlName="id"
           placeholder="Fide Id(optional)"
-          [class.error]="controlInvalid('fideId')"
+          [class.error]="controlInvalid('fide.id')"
         >
         </div>
-      <div *ngIf="controlInvalid('fideId')" class="error-message">
+      <div *ngIf="controlInvalid('fide.id')" class="error-message">
         <span>Enter valid Fide Id (7-9 characters contain number only).</span>
       </div>
     </div>
@@ -319,20 +317,20 @@
           id="fideRating"
           formControlName="rating"
           placeholder="Fide Rating(optional)"
-          [class.error]="controlInvalid('fideRating')"
+          [class.error]="controlInvalid('fide.rating')"
         >
       </div>
-      <div *ngIf="controlInvalid('fideRating')" class="error-message">
+      <div *ngIf="controlInvalid('fide.rating')" class="error-message">
         <span>Enter valid Fide Rating (1400 - 3000 range).</span>
       </div>
     </div>
-    <div formGroupName="chessLevel" class="form-group">
+    <div class="form-group">
       <label for="level" class="form-label">Level</label>
       <div>
         <input
-          type="checkbox"
+          type="radio"
           id="levelBeginner"
-          formControlName="beginner"
+          formControlName="chessLevel"
           class="selection"
           value="beginner"
         >
@@ -340,9 +338,9 @@
       </div>
       <div>
         <input
-          type="checkbox"
+          type="radio"
           id="levelIntermediate"
-          formControlName="intermediate"
+          formControlName="chessLevel"
           class="selection"
           value="intermediate"
         >
@@ -350,9 +348,9 @@
       </div>
       <div>
         <input
-          type="checkbox"
+          type="radio"
           id="levelAdvanced"
-          formControlName="advanced"
+          formControlName="chessLevel"
           class="selection"
           value="advanced"
         >
