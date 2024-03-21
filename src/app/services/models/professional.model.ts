@@ -8,5 +8,5 @@ export interface Professional {
     phoneNumber: string;
     fideID?: string;
     fideRating?: number;
-    fideRatingLevel?: string;
+    gameLevel?: string;
 }

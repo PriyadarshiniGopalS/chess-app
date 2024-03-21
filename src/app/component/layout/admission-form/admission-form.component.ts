@@ -40,7 +40,7 @@ export class AdmissionFormComponent implements OnInit {
         id: ['', this.fideIdValidator],
         rating: ['', this.fideRatingValidator]
       }),
-      chessLevel: ['']
+      gameLevel: ['']
     });
 
     this.workingForm = this.formBuilder.group({
@@ -57,7 +57,7 @@ export class AdmissionFormComponent implements OnInit {
         rating: ['', this.fideRatingValidator]
       }),
       occupation: ['', this.firstNameValidator],
-      chessLevel: ['']
+      gameLevel: ['']
     });
   }
 
@@ -90,7 +90,7 @@ export class AdmissionFormComponent implements OnInit {
         phoneNumber: this.studentForm.get('phoneNumber')?.value,
         fideID: this.studentForm.get('fide.id')?.value,
         fideRating: this.studentForm.get('fide.rating')?.value,
-        fideRatingLevel: this.studentForm.get('chessLevel')?.value
+        gameLevel: this.studentForm.get('gameLevel')?.value
       };
 
       this.enrollService.addStudent(request).subscribe((response) => {
@@ -115,8 +115,8 @@ export class AdmissionFormComponent implements OnInit {
       phoneNumber: this.workingForm.get('phoneNumber')?.value,
       fideID: this.workingForm.get('fide.id')?.value,
       fideRating: this.workingForm.get('fide.rating')?.value,
-      fideRatingLevel: this.workingForm.get('chessLevel')?.value,
-      occupation: this.workingForm.get('Occupation')?.value      
+      gameLevel: this.workingForm.get('gameLevel')?.value,
+      occupation: this.workingForm.get('occupation')?.value      
     };
 
     this.enrollService.addProfessional(request).subscribe((response) => {
