@@ -55,10 +55,6 @@
   .form-group {
     margin-bottom: 20px;
   }
-  
-  .form-group>input, .form-control{
-    width: 48%;
-  }
 
   
 .form-label {

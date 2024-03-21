@@ -2,6 +2,7 @@
   display: flex;
   width: 48%;
 }
+
 .selection{
   margin-right: 1rem;
 }
@@ -12,16 +13,11 @@
   margin-bottom: 20px;
 }
 
-.name {
+.row-controls {
   display: flex;
   justify-content: space-between;
 }
 
-.align-single-row {
-  display: flex;
+.row-controls > * {
   width: 48%;
-}
-
-.align-single-row > * {
-  margin-right: 1rem;
 }

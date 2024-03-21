@@ -14,73 +14,154 @@ export class AdmissionFormComponent implements OnInit {
   studentForm: FormGroup;
   workingForm: FormGroup;
   toolTip = '';
-  studentNameInvalid = false;
-  gradeInvalid = false;
-  schoolInvalid = false;
-  parentNameInvalid = false;
-  emailInvalid = false;
-  phoneNumberInvalid = false;
-  chessLevelInvalid = false;
-  parentNameValid = false;
-  fideRatingInvalid = false;
-  fideIdInvalid = false;
-  ageInvalid = false;
-  occupationInvalid = false;
-  nameInvalid = false;
   grades: (string | number)[] = ['Pre-KG', 'KG', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  age: number | undefined;
   
   constructor(
     public dialogRef: MatDialogRef<AdmissionFormComponent>,
     private formBuilder: FormBuilder,
     private readonly enrollService: EnrollService
   ) {
-    // Initialize form using FormBuilder
     this.studentForm = this.formBuilder.group({
       student: this.formBuilder.group({
-        studentFirstName: ['', this.firstNameValidator], // Create FormControl for studentFirstName
+        studentFirstName: ['', this.firstNameValidator],
         studentLastName: [''],
       }),
-      grade: ['', [Validators.required,  this.gradeValidator]], // Create FormControl for grade
-      school: ['', [Validators.required, Validators.minLength(5)]],
+      dateOfBirth: ['' , this.dateOfBirthValidator],
+      age: ['', [Validators.required]],
+      grade: ['', [Validators.required]],
+      school: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
       parent: this.formBuilder.group({
-        parentFirstName: ['', this.firstNameValidator], // Create FormControl for parentFirstName
+        parentFirstName: ['', this.firstNameValidator],
         parentLastName: ['']
       }),
-      email: ['', this.mailValidator], // Create FormControl for email
-      phoneNumber: ['', [Validators.required, Validators.pattern('[0-9]*')]], // Create FormControl for phoneNumber
+      email: ['', this.mailValidator],
+      phoneNumber: ['', this.phoneNumberValidator],
       fide: this.formBuilder.group({
         id: ['', this.fideIdValidator],
         rating: ['', this.fideRatingValidator]
       }),
-      chessLevel: this.formBuilder.group({
-        beginner: [''], // Create FormControl for beginner
-        intermediate: [''], // Create FormControl for intermediate
-        advanced: [''] // Create FormControl for advanced
-      })
+      chessLevel: ['']
     });
 
     this.workingForm = this.formBuilder.group({
       name: this.formBuilder.group({
-        firstName: ['', Validators.required],
+        firstName: ['', this.firstNameValidator],
         lastName: ['', Validators.required]
       }),
-      age: ['', [Validators.required, Validators.pattern('[0-9]*')]],
-      email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', [Validators.required, Validators.pattern('[0-9]*')]],
-      occupation: ['', Validators.required],
-      chessTournament: ['', Validators.required],
-      chessLevel: this.formBuilder.group({
-        beginner: [false], // Create FormControl for beginner
-        intermediate: [false], // Create FormControl for intermediate
-        advanced: [false] // Create FormControl for advanced
-      }, { validators: (formGroup: FormGroup) => {
-        const { beginner, intermediate, advanced } = formGroup.value;
-        if (!(beginner || intermediate || advanced)) {
-          return { noLevelSelected: true };
-        }
-        return null;
-      }})
+      dateOfBirth: ['' , this.dateOfBirthValidator],
+      age: ['', [Validators.required]],
+      email: ['', this.mailValidator],
+      phoneNumber: ['', this.phoneNumberValidator],
+      fide: this.formBuilder.group({
+        id: ['', this.fideIdValidator],
+        rating: ['', this.fideRatingValidator]
+      }),
+      chessLevel: ['']
     });
+  }
+
+  public calculateAge(event: any) {
+    const today = new Date();
+    const birthDate = new Date(event.target.value);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    this.age = age;
+  }
+
+  ngOnInit(): void {
+  }
+
+  submitStudentForm() {
+    if(this.studentForm.invalid) {
+      this.studentForm.markAllAsTouched();
+    } else {
+      const request = {
+        name: `${this.studentForm.get('student.studentFirstName')?.value} ${this.studentForm.get('student.studentLastName')?.value}`,
+        age: this.studentForm.get('age')?.value,
+        dateOfBirth: this.studentForm.get('dateOfBirth')?.value,
+        grade: this.studentForm.get('grade')?.value,
+        school: this.studentForm.get('school')?.value,
+        parentName: `${this.studentForm.get('parent.parentFirstName')?.value} ${this.studentForm.get('parent.parentLastName')?.value}`,
+        parentEmail: this.studentForm.get('email')?.value,
+        phoneNumber: this.studentForm.get('phoneNumber')?.value,
+        fideID: this.studentForm.get('fide.id')?.value,
+        fideRating: this.studentForm.get('fide.rating')?.value,
+        fideRatingLevel: this.studentForm.get('chessLevel')?.value
+      };
+
+      this.enrollService.addStudent(request).subscribe((response) => {
+        if(response) {
+          this.dialogRef.close();
+        } else {
+          this.toolTip = 'Same student is already enrolled';
+        }
+      });
+    }
+  }
+
+  submitWorkingForm() {
+    if(this.workingForm.invalid) {
+      this.workingForm.markAllAsTouched();
+    } else {
+      const request = {
+      name: `${this.workingForm.get('name.firstName')?.value} ${this.workingForm.get('name.lastName')?.value}`,
+      age: this.workingForm.get('age')?.value,
+      dateOfBirth: this.workingForm.get('dateOfBirth')?.value,
+      email: this.workingForm.get('email')?.value,
+      phoneNumber: this.workingForm.get('phoneNumber')?.value,
+      fideID: this.workingForm.get('fide.id')?.value,
+      fideRating: this.workingForm.get('fide.rating')?.value,
+      fideRatingLevel: this.workingForm.get('chessLevel')?.value,
+      occupation: this.workingForm.get('Occupations')?.value      
+    };
+
+    this.enrollService.addProfessional(request).subscribe((response) => {
+      if(response) {
+        this.dialogRef.close();
+      } else {
+        this.toolTip = 'Same working professional is already enrolled';
+      }
+    });
+    }
+  }
+
+  closeForm() {
+    this.dialogRef.close();
+  }
+
+  private firstNameValidator(control: FormControl) {
+    const value = control.value;
+    if (value && value.length >= 2 && value.length <= 30) {
+      return null;
+    }
+    return { firstNameInvalid: true };
+  }
+
+  private dateOfBirthValidator(control: FormControl) {
+    const value = control.value;
+    if (!value) {
+      return { dateOfBirthInvalid: true };
+    }
+    return null;
+  }
+
+  private phoneNumberValidator(control: FormControl) {
+    const value = control.value;
+    if (!value) {
+      return { phoneNumberInvalid: true };
+    }
+
+    const phoneNumberRegex = /^[0-9]*$/;
+
+    if (!phoneNumberRegex.test(value) || value.length !== 10) {
+      return { phoneNumberInvalid: true };
+    }
+
+    return null;
   }
 
   private mailValidator(control: FormControl) {
@@ -109,7 +190,7 @@ export class AdmissionFormComponent implements OnInit {
 
   private fideIdValidator(control: FormControl) {
     const value = control.value;
-    if (value && (isNaN(value) || value.length !== 7)) {
+    if (value && (isNaN(value) || value.length < 6 || value.length > 9)) {
       return { fideIdInvalid: true };
     }
     return null;
@@ -117,84 +198,28 @@ export class AdmissionFormComponent implements OnInit {
 
   private fideRatingValidator(control: FormControl) {
     const value = control.value;
-    if (value && (isNaN(value) || parseInt(value) < 1000 || parseInt(value) > 3000)) {
+    if (value && (isNaN(value) || parseInt(value) < 1400 || parseInt(value) > 3000)) {
       return { fideRatingInvalid: true };
     }
     return null;
   }
 
-  private firstNameValidator(control: FormControl) {
-    const value = control.value;
-    if (value && value.length >= 2) {
-      return null;
-    }
-    return { firstNameInvalid: true };
-  }
-
-  gradeValidator(control: FormControl) {
-    const value = control.value;
-    if (
-      !['Pre-KG', 'KG'].includes(value) &&
-      (isNaN(value) || parseInt(value) < 1 || parseInt(value) > 12)
-    ) {
-      return { invalidGrade: true };
+  private getFormControl(controlName: string) {
+    if (this.formType === 'student') {
+      return this.studentForm.get(controlName);
+    } else if (this.formType === 'working') {
+      return this.workingForm.get(controlName);
     }
     return null;
   }
 
-  ngOnInit(): void {
+  controlInvalid(controlName: string) {
+    const control = this.getFormControl(controlName);
+    return control?.touched && control?.invalid;
   }
 
-  submitStudentForm() {
-    if(this.studentForm.invalid) {
-      this.studentNameInvalid = this.studentForm.get('student.studentFirstName')?.invalid ?? false;
-      this.gradeInvalid = this.studentForm.get('grade')?.invalid ?? false;
-      this.schoolInvalid = this.studentForm.get('school')?.invalid ?? false;
-      this.parentNameInvalid = this.studentForm.get('parent.parentFirstName')?.invalid ?? false;
-      this.emailInvalid = this.studentForm.get('email')?.invalid ?? false;
-      this.phoneNumberInvalid = this.studentForm.get('phoneNumber')?.invalid ?? false;
-      this.chessLevelInvalid = this.workingForm.get('chessLevel')?.invalid ?? false;
-      this.fideIdInvalid = this.studentForm.get('fide.id')?.invalid ?? false;
-      this.fideRatingInvalid = this.studentForm.get('fide.rating')?.invalid ?? false;
-    } else {
-      const request = {
-        name: `${this.studentForm.get('student.studentFirstName')?.value} ${this.studentForm.get('student.studentLastName')?.value}`,
-        grade: this.studentForm.get('grade')?.value,
-        school: this.studentForm.get('school')?.value,
-        parentName: `${this.studentForm.get('parent.parentFirstName')?.value} ${this.studentForm.get('parent.parentLastName')?.value}`,
-        parentEmail: this.studentForm.get('email')?.value,
-        phoneNumber: this.studentForm.get('phoneNumber')?.value,
-        fideID: this.studentForm.get('fide.id')?.value,
-        fideRating: this.studentForm.get('fide.rating')?.value,
-        fideRatingLevel: this.studentForm.get('chessLevel.beginner')?.value + this.studentForm.get('chessLevel.intermediate')?.value + this.studentForm.get('chessLevel.advanced')?.value
-      };
-
-      this.enrollService.addStudent(request).subscribe((response) => {
-        if(response) {
-          this.dialogRef.close();
-        } else {
-          this.toolTip = 'Same student already exists';
-        }
-      });
-    }
+  dateOfBirthControlInvalid(minAge: number, maxAge: number) {
+    return this.controlInvalid('dateOfBirth') || (this.age !== undefined && (this.age < minAge || this.age > maxAge));
   }
 
-  submitWorkingForm() {
-    if(this.workingForm.invalid) {
-      this.nameInvalid = this.workingForm.get('name.firstName')?.invalid ?? false;
-      this.ageInvalid = this.workingForm.get('age')?.invalid ?? false;
-      this.emailInvalid = this.workingForm.get('email')?.invalid ?? false;
-      this.phoneNumberInvalid = this.workingForm.get('phoneNumber')?.invalid ?? false;
-      this.occupationInvalid = this.workingForm.get('occupation')?.invalid ?? false;
-      this.chessLevelInvalid = this.workingForm.get('chessLevel')?.invalid ?? false;
-      this.fideIdInvalid = this.studentForm.get('fide.id')?.invalid ?? false;
-      this.fideRatingInvalid = this.studentForm.get('fide.rating')?.invalid ?? false;
-    } else {
-      this.dialogRef.close();
-    }
-  }
-
-  closeForm() {
-    this.dialogRef.close();
-  }
 }
