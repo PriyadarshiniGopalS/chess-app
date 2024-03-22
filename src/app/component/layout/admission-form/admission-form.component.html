@@ -1,4 +1,4 @@
-<div class="form-container">
+<div class="form-container" *ngIf="!formSubmitted">
   <h2 *ngIf="formType !== 'none'" class="pop-up-header">Chess Class Admission Form</h2>
   <form (ngSubmit)="submitStudentForm()" [formGroup]="studentForm" class="form" *ngIf="formType === 'student'">
     <div class="form-group">
@@ -34,7 +34,7 @@
             id="dateOfBirth"
             formControlName="dateOfBirth"
             placeholder="dd/mm/yyyy"
-            [class.error]="dateOfBirthControlInvalid()"
+            [class.error]="dateOfBirthInvalid(5, 21)"
             (change)="calculateAge($event)"
           >
         </div>
@@ -49,7 +49,7 @@
           >
         </div>
       </div>
-      <div *ngIf="dateOfBirthControlInvalid()" class="error-message">
+      <div *ngIf="dateOfBirthInvalid(5, 21)" class="error-message">
         <span>Select a valid date. Student age should be 5 to 21.</span>
       </div>
     </div>
@@ -199,8 +199,8 @@
       <span style="text-align: center;"><b>Student already exist!</b></span>
     </div>
     <div class="pop-up-button-group">
-      <button type="button" (click)="closeForm()">Close</button>
-      <button type="submit">Submit</button>
+      <button type="button" (click)="closeForm()" [disabled]="submitIsInProgress">Close</button>
+      <button type="submit" disabled="submitIsInProgress">Submit</button>
     </div>
   </form>
   <form (ngSubmit)="submitWorkingForm()" [formGroup]="workingForm" class="form" *ngIf="formType === 'working'">
@@ -237,7 +237,7 @@
             id="dateOfBirth"
             formControlName="dateOfBirth"
             placeholder="dd/mm/yyyy"
-            [class.error]="dateOfBirthControlInvalid()"
+            [class.error]="dateOfBirthInvalid(18, 150)"
             (change)="calculateAge($event)"
           >
         </div>
@@ -252,7 +252,7 @@
           >
         </div>
       </div>
-      <div *ngIf="dateOfBirthControlInvalid()" class="error-message">
+      <div *ngIf="dateOfBirthInvalid(18, 150)" class="error-message">
         <span>Select a valid date. Age should be above 18.</span>
       </div>
     </div>
@@ -364,8 +364,16 @@
       <span style="text-align: center;"><b>Professional already exist!</b></span>
     </div>
     <div class="pop-up-button-group">
-      <button type="button" (click)="closeForm()">Close</button>
-      <button type="submit">Submit</button>
+      <button type="button" (click)="closeForm()" [disabled]="submitIsInProgress">Close</button>
+      <button type="submit" [disabled]="submitIsInProgress">Submit</button>
     </div>
   </form>
+</div>
+
+<div *ngIf="formSubmitted">
+  <h5 class="pop-up-header">Thanks for submitting!</h5>
+  <h5 class="pop-up-header">WKCC will contact your shortly!</h5>
+  <div class="pop-up-button-group">
+    <button type="button" (click)="closeForm()">Ok</button>
+  </div>
 </div>

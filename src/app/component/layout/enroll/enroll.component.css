@@ -33,18 +33,6 @@
     padding: 0.8rem; /* Add padding to the text */
 }
 
-/* Styling for the button */
-.button {
-    display: inline-block;
-    padding: 0.8rem;
-    background-color: #ffa600;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 0.5rem;
-    width: 100%;
-    border: none;
-}
-
 /* Extra small devices (phones) */
 @media (max-width: 575.98px) {
     .main-tile {

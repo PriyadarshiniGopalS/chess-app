@@ -17,6 +17,8 @@ export class AdmissionFormComponent implements OnInit {
   studentExist = false;
   professionalExist = false;
   toolTip = '';
+  formSubmitted = false;
+  submitIsInProgress = false;
   grades: (string | number)[] = ['Pre-KG', 'KG', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   
   constructor(
@@ -29,8 +31,8 @@ export class AdmissionFormComponent implements OnInit {
         studentFirstName: ['', this.firstNameValidator],
         studentLastName: [''],
       }),
-      dateOfBirth: [Validators.required],
-      age: [[Validators.required, (control: { value: number; }) => control.value < 5 || control.value > 18 ? { ageInvalid: true } : null]],
+      dateOfBirth: ['', Validators.required],
+      age: ['', Validators.required],
       grade: ['', [Validators.required]],
       school: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
       parent: this.formBuilder.group({
@@ -40,8 +42,8 @@ export class AdmissionFormComponent implements OnInit {
       email: ['', this.mailValidator],
       phoneNumber: ['', this.phoneNumberValidator],
       fide: this.formBuilder.group({
-        id: [this.fideIdValidator],
-        rating: [this.fideRatingValidator]
+        id: ['', this.fideIdValidator],
+        rating: ['', this.fideRatingValidator]
       }),
       gameLevel: []
     });
@@ -51,13 +53,13 @@ export class AdmissionFormComponent implements OnInit {
         firstName: ['', this.firstNameValidator],
         lastName: ['']
       }),
-      dateOfBirth: [Validators.required],
-      age: [Validators.required,  (control: { value: number; }) => control.value < 18 || control.value > 100 ? { ageInvalid: true } : null],
+      dateOfBirth: ['', Validators.required],
+      age: ['', Validators.required],
       email: ['', this.mailValidator],
       phoneNumber: ['', this.phoneNumberValidator],
       fide: this.formBuilder.group({
-        id: [this.fideIdValidator],
-        rating: [this.fideRatingValidator]
+        id: ['', this.fideIdValidator],
+        rating: ['', this.fideRatingValidator]
       }),
       occupation: ['', this.firstNameValidator],
       gameLevel: []
@@ -80,10 +82,13 @@ export class AdmissionFormComponent implements OnInit {
 
   submitStudentForm() {
     this.studentExist = false;
-    this.professionalExist = false;
     if(this.studentForm.invalid) {
       this.studentForm.markAllAsTouched();
     } else {
+      const fideID = this.studentForm.get('fide.id')?.touched ? this.studentForm.get('fide.id')?.value : null;
+      const fideRating = this.studentForm.get('fide.rating')?.touched ? this.studentForm.get('fide.rating')?.value : null;
+      const gameLevel = this.studentForm.get('gameLevel')?.touched ? this.studentForm.get('gameLevel')?.value : null;
+
       const request = {
         name: `${this.studentForm.get('student.studentFirstName')?.value} ${this.studentForm.get('student.studentLastName')?.value}`,
         age: this.studentForm.get('age')?.value,
@@ -93,14 +98,19 @@ export class AdmissionFormComponent implements OnInit {
         parentName: `${this.studentForm.get('parent.parentFirstName')?.value} ${this.studentForm.get('parent.parentLastName')?.value}`,
         parentEmail: this.studentForm.get('email')?.value,
         phoneNumber: this.studentForm.get('phoneNumber')?.value,
-        fideID: this.studentForm.get('fide.id')?.value,
-        fideRating: this.studentForm.get('fide.rating')?.value,
-        gameLevel: this.studentForm.get('gameLevel')?.value
+        fideID,
+        fideRating,
+        gameLevel
       };
 
+      this.submitIsInProgress = true;
       this.enrollService.addStudent(request).pipe(
-        map(() => this.dialogRef.close()),
-         catchError((error) => {
+        map(() => {
+          this.submitIsInProgress = false;
+          this.formSubmitted = true;
+        }),
+        catchError((error) => {
+          this.submitIsInProgress = false;
           this.studentExist = true;
           console.error(error);
           return of(null);
@@ -110,26 +120,34 @@ export class AdmissionFormComponent implements OnInit {
   }
 
   submitWorkingForm() {
+    this.professionalExist = false;
     if(this.workingForm.invalid) {
       this.workingForm.markAllAsTouched();
     } else {
-        const request = {
+      const fideID = this.workingForm.get('fide.id')?.touched ? this.workingForm.get('fide.id')?.value : null;
+      const fideRating = this.workingForm.get('fide.rating')?.touched ? this.workingForm.get('fide.rating')?.value : null;
+      const gameLevel = this.workingForm.get('gameLevel')?.touched ? this.workingForm.get('gameLevel')?.value : null;
+      const request = {
         name: `${this.workingForm.get('name.firstName')?.value} ${this.workingForm.get('name.lastName')?.value}`,
         age: this.workingForm.get('age')?.value,
         dateOfBirth: this.workingForm.get('dateOfBirth')?.value,
         email: this.workingForm.get('email')?.value,
         phoneNumber: this.workingForm.get('phoneNumber')?.value,
-        fideID: this.workingForm.get('fide.id')?.value,
-        fideRating: this.workingForm.get('fide.rating')?.value,
-        gameLevel: this.workingForm.get('gameLevel')?.value,
-        occupation: this.workingForm.get('occupation')?.value      
+        occupation: this.workingForm.get('occupation')?.value,
+        fideID,
+        fideRating,
+        gameLevel
       };
 
+      this.submitIsInProgress = true;
       this.enrollService.addProfessional(request).pipe(
-        map(() => this.dialogRef.close()),
+        map(() => {
+          this.submitIsInProgress = false;
+          this.formSubmitted = true;
+        }),
         catchError((error) => {
           this.professionalExist = true;
-          console.error(error);
+          this.submitIsInProgress = false;
           return of(null);
         })
       ).subscribe();
@@ -189,7 +207,7 @@ export class AdmissionFormComponent implements OnInit {
 
   private fideIdValidator(control: FormControl) {
     const value = control.value;
-    if (value && (isNaN(value) || value.length < 7 || value.length > 9)) {
+    if (value && (isNaN(value) || value.toString().length < 7 || value.toString().length > 9)) {
       return { fideIdInvalid: true };
     }
     return null;
@@ -216,17 +234,13 @@ export class AdmissionFormComponent implements OnInit {
    this.getFormControl('age')?.setValue(age);
   }
 
-  private get age() {
-    return this.getFormControl('age')?.value;
-  }
-
   controlInvalid(controlName: string) {
     const control = this.getFormControl(controlName);
     return control?.touched && control?.invalid;
   }
 
-  dateOfBirthControlInvalid() {
-    return this.controlInvalid('dateOfBirth') || ( this.age !== "" && this.getFormControl('age')?.invalid);
+  dateOfBirthInvalid(minAge: number, maxAge: number) {
+    const age = this.getFormControl('age')?.value;
+    return (age !== '' && (age < minAge || age > maxAge)) || this.controlInvalid('dateOfBirth');
   }
-
 }
