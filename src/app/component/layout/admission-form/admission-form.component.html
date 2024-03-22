@@ -140,6 +140,8 @@
           formControlName="id"
           placeholder="Fide Id(optional)"
           [class.error]="controlInvalid('fide.id')"
+          min="1000000"
+          max="999999999"
         >
         </div>
       <div *ngIf="controlInvalid('fide.id')" class="error-message">
@@ -156,6 +158,8 @@
           formControlName="rating"
           placeholder="Fide Rating(optional)"
           [class.error]="controlInvalid('fide.rating')"
+          min="1400"
+          max="3000"
         >
       </div>
       <div *ngIf="controlInvalid('fide.rating')" class="error-message">
@@ -305,6 +309,8 @@
           formControlName="id"
           placeholder="Fide Id(optional)"
           [class.error]="controlInvalid('fide.id')"
+          min="1000000"
+          max="999999999"
         >
         </div>
       <div *ngIf="controlInvalid('fide.id')" class="error-message">
@@ -321,6 +327,8 @@
           formControlName="rating"
           placeholder="Fide Rating(optional)"
           [class.error]="controlInvalid('fide.rating')"
+          min="1400"
+          max="3000"
         >
       </div>
       <div *ngIf="controlInvalid('fide.rating')" class="error-message">

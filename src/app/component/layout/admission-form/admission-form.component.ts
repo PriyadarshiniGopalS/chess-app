@@ -207,7 +207,7 @@ export class AdmissionFormComponent implements OnInit {
 
   private fideIdValidator(control: FormControl) {
     const value = control.value;
-    if (value && (isNaN(value) || value.toString().length < 7 || value.toString().length > 9)) {
+    if (value && isNaN(value)) {
       return { fideIdInvalid: true };
     }
     return null;
@@ -215,7 +215,7 @@ export class AdmissionFormComponent implements OnInit {
 
   private fideRatingValidator(control: FormControl) {
     const value = control.value;
-    if (value && (isNaN(value) || parseInt(value) < 1400 || parseInt(value) > 3000)) {
+    if (value && isNaN(value)) {
       return { fideRatingInvalid: true };
     }
     return null;
