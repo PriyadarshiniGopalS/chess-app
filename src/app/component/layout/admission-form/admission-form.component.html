@@ -200,7 +200,7 @@
     </div>
     <div class="pop-up-button-group">
       <button type="button" (click)="closeForm()" [disabled]="submitIsInProgress">Close</button>
-      <button type="submit" disabled="submitIsInProgress">Submit</button>
+      <button type="submit" [disabled]="submitIsInProgress">Submit</button>
     </div>
   </form>
   <form (ngSubmit)="submitWorkingForm()" [formGroup]="workingForm" class="form" *ngIf="formType === 'working'">
