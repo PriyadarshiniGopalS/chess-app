@@ -1,0 +1,48 @@
+.image-slider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 20rem;
+    padding: 1rem;
+    overflow: hidden;
+}
+
+.image-slider img {
+    height: 100%;
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 5rem;
+}
+
+.left-arrow {
+    left: 1rem;
+}
+
+.right-arrow {
+    right: 1rem;
+}
+
+.padding-table-data {
+    padding-right: 1rem;
+}
+
+@media (max-width: 768px) {
+    .image-slider {
+        height: 15rem;
+    }
+    
+    .arrow {
+        font-size: 3rem;
+    }
+}

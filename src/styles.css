@@ -65,7 +65,12 @@ body.show-overlay {
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 0px;
+  padding: 1rem 0px;
+}
+
+.form-border {
+  border-top: 1px solid #dee2e6;
 }
 
 .form-label {
@@ -91,6 +96,16 @@ body.show-overlay {
     padding: 5rem;
     align-content: center;
 }
+
+.row-controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.row-controls > * {
+  width: 48%;
+}
+
 @media (max-width: 912px) {
     .pop-up {
         width: 90%;

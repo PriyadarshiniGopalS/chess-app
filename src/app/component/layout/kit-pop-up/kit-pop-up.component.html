@@ -11,5 +11,10 @@
             </button>
         </div>
     </div>
-    <ca-kit-form [kitType]="kitType" *ngIf="kitType !== 'none'" class="pop-up-content"></ca-kit-form>
+    <ca-kit-form
+        [kitType]="kitType"
+        [imageUrls]="imageUrls"
+        [description]="description"
+        [price]="price"
+        *ngIf="kitType !== 'none'"></ca-kit-form>
 </div>

@@ -13,15 +13,6 @@
   margin-bottom: 20px;
 }
 
-.row-controls {
-  display: flex;
-  justify-content: space-between;
-}
-
-.row-controls > * {
-  width: 48%;
-}
-
 .pop-up-button-group > button:disabled {
   background-color: #d3d3d3;
   cursor: not-allowed;

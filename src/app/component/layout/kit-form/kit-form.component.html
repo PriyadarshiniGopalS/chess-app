@@ -1,54 +1,162 @@
 <div class="form-container">
-    <h2 *ngIf="kitType !== 'none'" class="pop-up-header">Delivery Details</h2>
-    <form (ngSubmit)="submit()" [formGroup]="kitForm" class="form">
-        <div class="form-group">
-            <label for="details" class="form-label">
-                Kit Details
+    <h2 *ngIf="kitType !== 'none'" class="pop-up-header">Order Details</h2>
+    <div class="image-slider">
+        <button class="arrow left-arrow" (click)="previousImage()">&#8249;</button>
+        <img [src]="currentImage" alt="Image">
+        <button class="arrow right-arrow" (click)="nextImage()">&#8250;</button>
+    </div>
+    <form (ngSubmit)="submit()" [formGroup]="standardForm" class="form">
+        <div class="form-group form-border">
+            <label for="name" class="form-label">
+                Product Name
             </label>
-            <input 
-                type="text-area" 
-                class="form-control" 
-                id="details" 
-                formControlName="details" 
-                value="kitDetails" 
-                readonly
-            >
+            <label>
+                {{ kitType === 'standard' ? 
+                    "Standard Kit consists of Chess board and coins"
+                    : "Elite Kit consists of Chess board, coins and clock"}}
+            </label>
         </div>
-        <div class="form-group">
-            <label for="price" class="form-label">Amount to be paid</label>
-            <input 
-                type="number" 
-                class="form-control" 
-                id="price" 
-                formControlName="price" 
-                value="kitPrice" 
-                readonly
-            >
+        <div class="form-group form-border">
+            <label for="description" class="form-label">
+                About this item
+            </label>
+            <table>
+                <tr *ngFor="let item of description | keyvalue">
+                    <td><b>{{ item.key }}</b></td>
+                    <td class="padding-table-data"><b>:</b></td>
+                    <td>{{ item.value }}</td>
+                </tr>
+            </table>
         </div>
-        <div class="form-group">
-            <label for="phoneNumber" class="form-label" [class.error]="phoneNumberInvalid">
+        <div class="form-group form-border">
+            <div class="row-controls">
+                <div>
+                    <label for="quantity" class="form-label">
+                        Quantity<span>*</span>
+                    </label>
+                    <input 
+                        type="number" 
+                        class="form-control" 
+                        id="quantity" 
+                        formControlName="quantity" 
+                        (input)="calculatePrice()"
+                        min="1"
+                        [class.error]="controlInvalid('quantity')"
+                    >
+                </div>
+                <div>
+                    <label for="price" class="form-label">
+                        Amount to be paid
+                    </label>
+                    <label>
+                        <h4>₹{{ totalPrice.toFixed(2) }}</h4>
+                    </label>
+                </div>
+            </div>
+            <div *ngIf="controlInvalid('quantity')" class="error-message">
+                <span>Invalid quantity.</span>
+            </div>
+        </div>
+        <div class="form-group form-border">
+            <label for="phoneNumber" class="form-label">
                 Phone Number<span>*</span>
             </label>
             <input 
-                type="tel" 
+                type="tel"
                 class="form-control" 
                 id="phoneNumber" 
                 formControlName="phoneNumber"
+                [class.error]="controlInvalid('phoneNumber')"
             >
-            <div *ngIf="phoneNumberInvalid" class="error-message">
+            <div *ngIf="controlInvalid('phoneNumber')" class="error-message">
                 <span>Invalid phone number.</span>
             </div>
         </div>
-        <div class="form-group">
-            <label for="address" class="form-label">Address<span>*</span></label>
-            <textarea 
-                class="form-control" 
-                id="address" 
-                formControlName="address" 
-                [class.error]="addressInvalid"
-            ></textarea>
-            <div *ngIf="addressInvalid" class="error-message">
-                <span>Invalid address.</span>
+        <div class="form-group form-border" formGroupName="address">
+            <label for="address" class="form-label">Delivery Address</label>
+            <div>
+                <label for="door number" class="form-label">Door No<span>*</span></label>
+                <input
+                    type="text"
+                    id="door-no"
+                    name="doorNo"
+                    class="form-control"
+                    formControlName="doorNumber"
+                    [class.error]="controlInvalid('address.doorNumber')"
+                >
+                <div *ngIf="controlInvalid('address.doorNumber')" class="error-message">
+                    <span>Invalid door number.</span>
+                </div>
+            </div>
+            <div>
+                <label for="street" class="form-label">Street<span>*</span></label>
+                <input
+                    type="text"
+                    id="street"
+                    name="street"
+                    class="form-control"
+                    formControlName="street"
+                    [class.error]="controlInvalid('address.street')"
+                >
+                <div *ngIf="controlInvalid('address.street')" class="error-message">
+                    <span>Invalid street.</span>
+                </div>
+            </div>
+            <div>
+                <label for="city" class="form-label">City<span>*</span></label>
+                <input
+                    type="text"
+                    id="city"
+                    name="city"
+                    class="form-control"
+                    formControlName="city"
+                    [class.error]="controlInvalid('address.city')"
+                >
+                <div *ngIf="controlInvalid('address.city')" class="error-message">
+                    <span>Invalid city.</span>
+                </div>
+            </div>
+            <div>
+                <label for="landmark" class="form-label">Landmark</label>
+                <input
+                    type="text"
+                    id="landmark"
+                    name="landmark"
+                    class="form-control"
+                    formControlName="landmark"
+                    [class.error]="controlInvalid('address.landmark')"
+                >
+                <div *ngIf="controlInvalid('address.landmark')" class="error-message">
+                    <span>Invalid landmark.</span>
+                </div>
+            </div>
+            <div>
+                <label for="state" class="form-label">State<span>*</span></label>
+                <input
+                    type="text"
+                    id="state"
+                    name="state"
+                    class="form-control"
+                    formControlName="state"
+                    [class.error]="controlInvalid('address.state')"
+                >
+                <div *ngIf="controlInvalid('address.state')" class="error-message">
+                    <span>Invalid state.</span>
+                </div>
+            </div>
+            <div>
+                <label for="zip" class="form-label">ZIP Code<span>*</span></label>
+                <input
+                    type="text"
+                    id="zip"
+                    name="zip"
+                    class="form-control"
+                    formControlName="zip"
+                    [class.error]="controlInvalid('address.zip')"
+                >
+                <div *ngIf="controlInvalid('address.zip')" class="error-message">
+                    <span>Invalid ZIP code.</span>
+                </div>
             </div>
         </div>
         <div class="pop-up-button-group">
