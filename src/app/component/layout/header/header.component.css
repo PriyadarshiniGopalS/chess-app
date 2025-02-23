@@ -41,3 +41,12 @@
 .social-icons-small-screen {
   margin-top: 10px;
 }
+
+.phone-container {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+}
+
+.phone {
+  display: grid;
+}
