@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="refresh" content="0; URL='/'" />
+</head>
+<body>
+    <script>
+        // Redirect all paths to index.html for client-side routing
+        var path = window.location.pathname;
+        window.location.replace("/?" + path);
+    </script>
+</body>
+</html>
