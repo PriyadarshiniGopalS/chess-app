@@ -1,0 +1,11 @@
+/* Trainer Cards */
+@media (max-width: 768px) {
+  .flex-none {
+    width: 100% !important; /* Full width on small screens */
+  }
+}
+
+/* Navigation Arrows */
+button {
+  z-index: 10;
+}

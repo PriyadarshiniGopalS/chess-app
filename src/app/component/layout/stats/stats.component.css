@@ -1,0 +1,7 @@
+.stats-border{
+    @apply md:border-l border-gray-300 px-6;
+}
+
+.stats-text {
+    @apply text-sm uppercase text-gray-600;
+}

@@ -1,41 +1,42 @@
-<nav class="navbar navbar-expand-xl">
-  <a class="navbar-brand" href="#">
-      <img src='assets/logo.jpg' alt="Logo" class="logo">
-  </a>
-  <a class="navbar-brand" href="#">
-    <span class="brand-text" ><b>WHITE KNIGHT CHESS CLUB</b></span></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-    
-  <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item" routerLinkActive="selected">
-        <a class="nav-link" routerLink="/home">
-          <i class="fas fa-home"></i> Home
-          <span class="sr-only">(current)</span>
-        </a>
-      </li>
-      <li class="nav-item" routerLinkActive="selected">
-        <a class="nav-link"  routerLink="/about">
-          <i class="fas fa-info-circle"></i> About
-        </a>
-      </li>
-      <li class="nav-item" routerLinkActive="selected">
-        <a class="nav-link"  routerLink="/contact">
-          <i class="fas fa-envelope"></i> Contact
-        </a>
-      </li>
-      <li class="nav-item" routerLinkActive="selected">
-        <a class="nav-link"  routerLink="/events">
-          <i class="fas fa-users"></i> Events
-        </a>
-      </li>
-      <li class="nav-item" routerLinkActive="selected">
-        <a class="nav-link"  routerLink="/achievements">
-          <i class="fas fa-trophy"></i> Achievements
-        </a>
-      </li>
-    </ul>
+<nav class="nav-header">
+  <!-- First Row: Logo & Name -->
+  <div class="logo-name">
+    <div class="flex items-center space-x-4">
+      <img src="assets/logo.jpg" alt="WKCC" class="h-12 sm:h-16 md:h-20" />
+      <p class="name">
+        WHITE KNIGHT CHESS CLUB
+      </p>
+    </div>
+
+    <!-- Hamburger Menu (Mobile) -->
+    <button id="menu-btn" class="md:hidden text-2xl" (click)="toggleMenu()">
+      <i class="fa fa-bars"></i>
+    </button>
+  </div>
+
+  <!-- Second Row: Navigation Links -->
+  <div id="menu" class="nav-menu-options">
+    <a href="#" class="nav-menu-anchor">Online Chess Class</a>
+    <a href="#" class="nav-menu-anchor">In-Person Chess Class</a>
+    <a href="#" class="nav-menu-anchor">Tournaments</a>
+    <a href="#" class="nav-menu-anchor">About Us</a>
+    <a href="#" class="nav-menu-anchor">Careers</a>
+    <a href="#" class="nav-menu-anchor">Contact Us</a>
   </div>
 </nav>
+<div class="overlay" *ngIf="isMenuOpen">
+  <div class="overlay-content">
+    <!-- Close Button -->
+    <button class="close-btn" (click)="toggleMenu()">
+      <i class="fa fa-times text-xl"></i>
+    </button>
+
+    <!-- Menu Items -->
+    <a href="#" class="nav-menu-anchor" (click)="toggleMenu()">Online Chess Class</a>
+    <a href="#" class="nav-menu-anchor" (click)="toggleMenu()">In-Person Chess Class</a>
+    <a href="#" class="nav-menu-anchor" (click)="toggleMenu()">Tournaments</a>
+    <a href="#" class="nav-menu-anchor" (click)="toggleMenu()">About Us</a>
+    <a href="#" class="nav-menu-anchor" (click)="toggleMenu()">Careers</a>
+    <a href="#" class="nav-menu-anchor" (click)="toggleMenu()">Contact Us</a>
+  </div>
+</div>
