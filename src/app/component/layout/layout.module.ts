@@ -20,6 +20,8 @@ import { KitPopUpComponent } from './kit-pop-up/kit-pop-up.component';
 import { TournamentRegistrationPopUpComponent } from './tournament-registration-pop-up/tournament-pop-up.component';
 import { KitFormComponent } from './kit-form/kit-form.component';
 import { HttpClientModule } from '@angular/common/http';
+import { StatsComponent } from './stats/stats.component';
+import { TutorsComponent } from './tutors/tutors.component';
 
 const routes: Routes = [
   {
@@ -70,7 +72,9 @@ const routes: Routes = [
     EnrollPopUpComponent,
     KitPopUpComponent,
     TournamentRegistrationPopUpComponent,
-    KitFormComponent
+    KitFormComponent,
+    StatsComponent,
+    TutorsComponent
   ],
   imports: [
     MatDialogModule,
@@ -82,6 +86,6 @@ const routes: Routes = [
   exports: [
     LayoutComponent
   ],
-  bootstrap:[LayoutComponent]
+  bootstrap: [LayoutComponent]
 })
 export class LayoutModule { }

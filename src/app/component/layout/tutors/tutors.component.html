@@ -1,0 +1,60 @@
+<div class="text-center">
+    <h2 class="text-3xl font-bold text-black">
+      <span class="text-purple-800">OUR</span> 
+      <span class="text-orange-500"> TUTORS</span>
+    </h2>
+  </div>
+  
+  <!-- Carousel Container -->
+  <div class="relative w-5/6  mx-auto mt-6">
+    <!-- Left Arrow -->
+    <button (click)="prevSlide()" 
+      class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-300 text-black p-3 rounded-full shadow-md hover:bg-gray-500">
+      &#10094;
+    </button>
+  
+    <!-- Trainer Cards -->
+    <div class="overflow-hidden">
+      <div class="flex transition-transform duration-500"
+           [style.transform]="'translateX(-' + (currentIndex * 100) + '%)'">
+        <div *ngFor="let trainer of trainers; let i = index"
+             class="flex-none w-full md:w-1/3 px-2 relative group"
+             (mouseover)="showContent(i)"
+             (mouseleave)="hideContent(i)">
+  
+          <!-- Trainer Image -->
+          <img [src]="trainer.image" alt="Trainer"
+             class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+  
+          <!-- Sliding Content -->
+          <div class="absolute inset-0 bg-orange-500 flex bg-opacity-90 items-center justify-center text-white text-center 
+                      p-4 transition-opacity duration-500 ease-in-out"
+               [ngClass]="{'opacity-100': trainer.showContent, 'opacity-0': !trainer.showContent}">
+              <p class="text-lg font-medium">{{ trainer.description }}</p>
+          </div>
+  
+          <!-- Name and Rating -->
+          <div class="bg-orange-500 text-white text-center py-3">
+              <h3 class="text-lg font-bold">{{ trainer.name }}</h3>
+              <p class="text-sm">{{ trainer.rating }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Right Arrow -->
+    <button (click)="nextSlide()" 
+      class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-300 text-black p-3 rounded-full shadow-md hover:bg-gray-500">
+      &#10095;
+    </button>
+  </div>
+  
+  <!-- Pagination Dots -->
+  <div class="flex justify-center space-x-2 mt-4">
+    <span *ngFor="let _ of [].constructor(totalPages); let i = index"
+          class="h-3 w-3 rounded-full cursor-pointer"
+          [ngClass]="{'bg-orange-500': i === currentIndex, 'bg-gray-300': i !== currentIndex}"
+          (click)="goToSlide(i)">
+    </span>
+  </div>
+  
