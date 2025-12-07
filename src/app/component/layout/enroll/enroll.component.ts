@@ -46,7 +46,7 @@ export class EnrollComponent implements OnInit {
   isSmallScreen = false;
 
   constructor(private breakpointObserver: BreakpointObserver,
-    public dialog: MatDialog) {}
+    public dialog: MatDialog) { }
 
   ngOnInit() {
     this.observeScreenSize();
@@ -59,17 +59,18 @@ export class EnrollComponent implements OnInit {
   }
 
   public openEnrollPopUp(): void {
-    const dialogRef = this.dialog.open(EnrollPopUpComponent);
+    // const dialogRef = this.dialog.open(EnrollPopUpComponent);
 
-    // Add a class to the overlay when the dialog is opened
-    dialogRef.afterOpened().subscribe(() => {
-      document.body.classList.add('show-overlay');
-    });
+    // // Add a class to the overlay when the dialog is opened
+    // dialogRef.afterOpened().subscribe(() => {
+    //   document.body.classList.add('show-overlay');
+    // });
 
-    // Remove the class when the dialog is closed
-    dialogRef.afterClosed().subscribe(() => {
-      document.body.classList.remove('show-overlay');
-    });
+    // // Remove the class when the dialog is closed
+    // dialogRef.afterClosed().subscribe(() => {
+    //   document.body.classList.remove('show-overlay');
+    // });
+    window.open("https://forms.gle/akaWYB6KF2ob5EnX6", '_blank');
   }
 
   public openKitPopUp(): void {
