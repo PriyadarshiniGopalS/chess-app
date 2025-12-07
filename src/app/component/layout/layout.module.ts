@@ -22,6 +22,7 @@ import { KitFormComponent } from './kit-form/kit-form.component';
 import { HttpClientModule } from '@angular/common/http';
 import { StatsComponent } from './stats/stats.component';
 import { TutorsComponent } from './tutors/tutors.component';
+import { GalleryComponent } from './gallery/gallery.component';
 
 const routes: Routes = [
   {
@@ -54,6 +55,11 @@ const routes: Routes = [
     component: AchievementsComponent,
     children: []
   },
+  {
+    path: 'gallery',
+    component: GalleryComponent,
+    children: []
+  }
 ];
 
 @NgModule({
@@ -74,7 +80,8 @@ const routes: Routes = [
     TournamentRegistrationPopUpComponent,
     KitFormComponent,
     StatsComponent,
-    TutorsComponent
+    TutorsComponent,
+    GalleryComponent
   ],
   imports: [
     MatDialogModule,
